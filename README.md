@@ -1,3 +1,3 @@
 # potential-tribble
-####Tony Li, Ivan Lin, Milo Bernfield
-####Software Development Period 3
+Tony Li, Ivan Lin, Milo Bernfield 
+Software Development Period 3
