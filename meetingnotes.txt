@@ -1,0 +1,15 @@
+Mr. Brown meeting Notes:
+
+streamlined and simple
+effective web design (look it up) "flat design"
+work on functional aspect that can facilitate outside delegations registering for the conference
+
+sign up to make an account (not only for the conference, for email blasts etc)
+if you register it should recognize that you are signed up ("is this you?")
+  if you leave a field empty it will keep your data and highlight it
+  head delegate registry and advisor registry (individual accounts even that get conference info?)
+  "you've successfully registered"
+clarify language for payment and make it easy to pay
+  "This much $ is due by this date, with these consequences if no" not antagonistic
+  reminds you via email
+  
