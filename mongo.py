@@ -9,7 +9,7 @@ def addEntry(database,collection,entry):
     client = MongoClient()
     db = client[database]
     collection = db[collection]
-    collection.insert(entry)
+    collection.insert_one(entry)
     client.close()
 
 #lists all entries
@@ -34,8 +34,11 @@ def getEntry(database,collection,query):
 def editEntry(database,collection,query,revisedEntry):
     client = MongoClient()
     collection = client[database][collection]
-    entry = collction.find_one(query)
+    entry = collection.find_one(query)
     for property in revisedEntry:
-        print property
+        print entry[property]
         entry[property] = revisedEntry[property]
+    collection.replace_one(query,revisedEntry)
     client.close()
+
+listEntry("db_test","collection_test")
