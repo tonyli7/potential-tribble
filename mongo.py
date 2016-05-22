@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 
 #authentication
-def authenticate():
+def authenticateMaster():
     pass
 
 #adds an entry to the specified database and collection
@@ -24,7 +24,7 @@ def listEntry(database,collection):
 def getEntry(database,collection,query):
     client = MongoClient()
     collection = client[database][collection]
-    entry = collection.find_many(query)
+    entry = collection.find_one(query)
     client.close()
     return entry
 
@@ -34,7 +34,6 @@ def getEntry(database,collection,query):
 def editEntry(database,collection,query,revisedEntry):
     client = MongoClient()
     collection = client[database][collection]
-    entry = collection.find_one_and_update(query,revisedEntry)
+    entry = collection.find_one_and_update(query,{"$set":revisedEntry})
     client.close()
 
-#listEntry("db_test","collection_test")
