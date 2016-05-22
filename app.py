@@ -28,8 +28,6 @@ def register():
         else:
             return render_template("/register.html", text = "Missing required fields")
 
-
-
 if __name__ == "__main__":
     app.debug = True
     app.run()

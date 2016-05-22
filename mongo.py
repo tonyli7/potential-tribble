@@ -24,7 +24,7 @@ def listEntry(database,collection):
 def getEntry(database,collection,query):
     client = MongoClient()
     collection = client[database][collection]
-    entry = collection.find_one(query)
+    entry = collection.find_many(query)
     client.close()
     return entry
 
@@ -34,11 +34,7 @@ def getEntry(database,collection,query):
 def editEntry(database,collection,query,revisedEntry):
     client = MongoClient()
     collection = client[database][collection]
-    entry = collection.find_one(query)
-    for property in revisedEntry:
-        print entry[property]
-        entry[property] = revisedEntry[property]
-    collection.replace_one(query,revisedEntry)
+    entry = collection.find_one_and_update(query,revisedEntry)
     client.close()
 
-listEntry("db_test","collection_test")
+#listEntry("db_test","collection_test")
