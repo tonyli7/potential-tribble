@@ -12,9 +12,9 @@ def home():
 @app.route("/login", methods = ['GET','POST'])
 def login():
     if request.method == 'POST':
-        
+
         if request.form['email'] and request.form['pwd']:
-            
+
             email = request.form['email']
             pwd = request.form['pwd']
 
@@ -28,24 +28,23 @@ def login():
 
 @app.route("/register", methods=['GET','POST'])
 def register():
-    
     if request.method == 'POST':
-       
+
         if request.form['email'] and request.form['f_name'] and request.form['l_name'] and request.form['pwd']:
             email = request.form['email']
             f_name = request.form['f_name']
             l_name = request.form['l_name']
             pwd = request.form['pwd']
-        
+
             utils.createUser(email, pwd, "admin")
-            
+
             return render_template("register.html", success="You've successfully registered!")
         else:
             return render_template("register.html", success="You've left some fields empty")
     else:
-        return render_template("/register.html")
-    
-    
+        return render_template("register.html")
+
+
 if __name__=="__main__":
     app.debug = True
     app.secret_key="Don't upload to github"
