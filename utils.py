@@ -24,8 +24,6 @@ def emailUser(username, password, receiver, subject, message):
     smtpserver.starttls()
     smtpserver.ehlo()
     smtpserver.login(username, password)
-    message = "To: {}\nFrom: {}\nSubject: {}\n".format(receiver,username,subject)
-    message += '\n this is test msg  \n\n'
+    message = "To: {}\nFrom: {}\nSubject: {}\n\n{}\n\n".format(receiver,username,subject,message)
     smtpserver.sendmail(username, receiver, message)
     smtpserver.close()
-
