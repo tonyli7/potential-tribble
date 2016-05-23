@@ -3,3 +3,15 @@
     left: 47%;
     top: 55%;
 }
+
+body{
+    background: url(../imgs/tribeca_bridge.jpg) no-repeat center fixed;
+    background-size: cover;
+}
+
+label{
+    color: white;
+}
+
+h2{
+    color: white;

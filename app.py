@@ -8,19 +8,24 @@ app = Flask(__name__)
 def home():
     return render_template("home.html")
 
-"""
-@app.route("/login", methods = ["POST"])
-def login():
-    ## Login template will have a link to register
-    if str(request.form["button"]) == "Log in":
-        username = str(request.form["username"])
-        ## User logs in by checking off account type (student or advisor), inputing uname and pword
-        if utils.pwordAuth(username, str(request.form["password"]), request.form["accounttype"]):
-            return render_template("/home.html")
-        else:
-            return render_template("/login.html", text = "Username and password do not match")
 
-"""
+@app.route("/login", methods = ['GET','POST'])
+def login():
+    if request.method == 'POST':
+        
+        if request.form['email'] and request.form['pwd']:
+            
+            email = request.form['email']
+            pwd = request.form['pwd']
+
+            if utils.pwordAuth(email,pwd,"admin"):
+                return render_template("home.html")
+            else:
+                return render_template("login.html", failure="email/password combination does not exist.")
+    else:
+        return render_template("login.html")
+
+
 @app.route("/register", methods=['GET','POST'])
 def register():
     
@@ -39,14 +44,7 @@ def register():
             return render_template("register.html", success="You've left some fields empty")
     else:
         return render_template("/register.html")
-    """
-    if str(request.form["button"]) == "Register":
-        # Look for and check for completeness of information
-        if True ""info is complete"":
-            return render_template("/home.html")
-        else:
-            return render_template("/register.html", text = "Missing required fields")
-    """
+    
     
 if __name__=="__main__":
     app.debug = True
