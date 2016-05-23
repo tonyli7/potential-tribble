@@ -19,6 +19,14 @@ def login():
         else:
             return render_template("/login.html", text = "Username and password do not match")
 
+@app.route("/register", methods = ["POST"])
+def register():
+    if str(request.form["button"]) == "Register":
+        # Look for and check for completeness of information
+        if True """info is complete""":
+            return render_template("/home.html")
+        else:
+            return render_template("/register.html", text = "Missing required fields")
 
 if __name__ == "__main__":
     app.debug = True
