@@ -20,16 +20,34 @@ def login():
         else:
             return render_template("/login.html", text = "Username and password do not match")
 
-@app.route("/register", methods = ["POST"])
+"""
+@app.route("/register", methods=['GET','POST'])
 def register():
+    
+    if request.method == 'POST':
+       
+        if request.form['email'] and request.form['f_name'] and request.form['l_name'] and request.form['pwd']:
+            email = request.form['email']
+            f_name = request.form['f_name']
+            l_name = request.form['l_name']
+            pwd = request.form['pwd']
+        
+            utils.createUser(email, pwd, "admin")
+            
+            return render_template("register.html", success="You've successfully registered!")
+        else:
+            return render_template("register.html", success="You've left some fields empty")
+    else:
+        return render_template("/register.html")
+    """
     if str(request.form["button"]) == "Register":
         # Look for and check for completeness of information
         if True ""info is complete"":
             return render_template("/home.html")
         else:
             return render_template("/register.html", text = "Missing required fields")
-
-"""
+    """
+    
 if __name__=="__main__":
     app.debug = True
     app.secret_key="Don't upload to github"
