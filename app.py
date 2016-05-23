@@ -8,6 +8,7 @@ app = Flask(__name__)
 def home():
     return render_template("home.html")
 
+"""
 @app.route("/login", methods = ["POST"])
 def login():
     ## Login template will have a link to register
@@ -23,11 +24,13 @@ def login():
 def register():
     if str(request.form["button"]) == "Register":
         # Look for and check for completeness of information
-        if True """info is complete""":
+        if True ""info is complete"":
             return render_template("/home.html")
         else:
             return render_template("/register.html", text = "Missing required fields")
 
-if __name__ == "__main__":
+"""
+if __name__=="__main__":
     app.debug = True
-    app.run()
+    app.secret_key="Don't upload to github"
+    app.run(host='0.0.0.0', port=8000)
