@@ -1,0 +1,7 @@
+5/24 (Client meeting #2)
+  -website designed to help future admins
+  -should easily allow other people to attend stuymuncs
+  -should allow admins to easily update information
+  -incorporate different levels of admins
+  -information should be easily navigable
+  
