@@ -1,9 +1,7 @@
 .register{
     position: absolute;
     left: 45%;
-    top: 46%;
-    background-color: #4CAF50; /* Green */
-    border: none;
+    top: 65%;
     color: black;
     padding: 16px 32px;
     text-align: center;
@@ -14,21 +12,39 @@
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
     cursor: pointer;
+    border-color: white;
 }
 
 .reghover{
-    background-color: black; 
-    color: white; 
-    border: 2px solid #4CAF50;
+    background-color: transparent;
+    border-color: white;
+    padding: 16px 32px;
+    color: white;
+   
 }
 
 .reghover:hover {
-    background-color: #4CAF50;
-    color: black;
+    border-color: white;
+    padding: 20px 40px;
+    color: white;
+    
+}
+
+.main{
+    background-color: #3f3c3c;
+    height: 300px;
+    width: 100%;
+    opacity: .5;
+}
+
+.text{
+    color: white;
+    font-size: 200px;
+    opacity: 1.0;
 }
 
 body{
-    background: url(../imgs/tribeca_bridge.jpg) no-repeat center fixed;
+    background: url(../imgs/tribeca.jpg) no-repeat center fixed;
     background-size: cover;
 }
 
