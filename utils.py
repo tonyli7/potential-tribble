@@ -1,5 +1,5 @@
 from passlib.hash import sha512_crypt
-import mongo, smtplib, datetime, logging, atexit 
+import mongo, smtplib, datetime, logging, atexit, string
 from apscheduler.scheduler import Scheduler
 
 ##creates new user account
@@ -34,10 +34,10 @@ def emailUser(username, password, receiver, subject, message):
 
 ## allows the admin to specify a time for a notification
 ## email gets sent out to all members of a specified collection
-def scheduleNotification(username, password, receivers, subject, message, year, month, date, hour, minute, second):
+def scheduleNotification(username, password, receivers, subject, message, timestring):
     logging.basicConfig() #for some reason necessary for apscheduler
     scheduler = Scheduler()
     scheduler.start()
-    sentOn = datetime.datetime(year,month,date,hour,minute,second)
-    scheduler.add_date_job(emailUser,sentOn,[username,password,receivers,subject,message])
+    sentOn = datetime.datetime.strptime(timestring,"%Y-%m-%dT%H:%M")
+    scheduler.add_date_job(emailUser,sentOn,[username,password,string.split(receivers,","),subject,message])
     atexit.register(lambda:scheduler.shutdown(wait=False))#sean vieira, stackoverflow, shuts down scheduler when app is closed

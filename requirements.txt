@@ -1,3 +1,4 @@
 apscheduler==2.1.2
+flask==0.10.1
 passlib==1.6.5
 pymongo==3.2.2

@@ -1,6 +1,5 @@
 import utils
 from flask import Flask, render_template, request
-
 app = Flask(__name__)
 
 @app.route("/")
@@ -44,13 +43,11 @@ def register():
     else:
         return render_template("register.html")
 
-@app.route("/admin")
+@app.route("/admin", methods=['GET','POST'])
 def admin():
     if request.method == 'POST':
-        print request.form['time']
-        print type(request.form['time'])
-        return "HI"
-        #utils.scheduleNotification(request.form['email'],request.form['password'],request.form['recipients'],request.form['time'])
+        utils.scheduleNotification(request.form['email'],request.form['password'],request.form['recipients'],request.form['message'],request.form['subject'],request.form['time'])
+        return "SENT"
     else:
         return render_template("admin.html")
 
