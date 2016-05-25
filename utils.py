@@ -1,6 +1,6 @@
 from passlib.hash import sha512_crypt
-import mongo
-import smtplib
+import mongo, smtplib, datetime, logging, atexit 
+from apscheduler.scheduler import Scheduler
 
 ##creates new user account
 def createUser(uname, pword, atype):
@@ -15,9 +15,13 @@ def pwordAuth(uname, pword, atype):
     user = mongo.getEntry("modelun","users",{"username":uname,"type":atype})
     return user is not None and sha512_crypt.verify(pword,user["password"])
 
-##email blasts
-##requires gmail account, as well as the user to allow less secure apps
-##on the account settings
+## sign up to attend a conference
+def attendConference(conferenceid):
+    pass
+
+## email blasts
+## requires gmail account, as well as the user to allow less secure apps
+## on the account settings
 def emailUser(username, password, receiver, subject, message):
     smtpserver = smtplib.SMTP("smtp.gmail.com",587)
     smtpserver.ehlo()
@@ -27,3 +31,13 @@ def emailUser(username, password, receiver, subject, message):
     message = "To: {}\nFrom: {}\nSubject: {}\n\n{}\n\n".format(receiver,username,subject,message)
     smtpserver.sendmail(username, receiver, message)
     smtpserver.close()
+
+## allows the admin to specify a time for a notification
+## email gets sent out to all members of a specified collection
+def scheduleNotification(username, password, receivers, subject, message, year, month, date, hour, minute, second):
+    logging.basicConfig() #for some reason necessary for apscheduler
+    scheduler = Scheduler()
+    scheduler.start()
+    sentOn = datetime.datetime(year,month,date,hour,minute,second)
+    scheduler.add_date_job(emailUser,sentOn,[username,password,receivers,subject,message])
+    atexit.register(lambda:scheduler.shutdown(wait=False))#sean vieira, stackoverflow, shuts down scheduler when app is closed
