@@ -1,2 +1,2 @@
 clean:
-	rm *.pyc;rm *~;rm *#
+	rm *.pyc;rm *~;rm *#;rm templates/*~
