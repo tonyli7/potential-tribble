@@ -28,10 +28,11 @@ def login():
 
 @app.route("/register", methods=['GET','POST'])
 def register():
+    n = session['email']
+    entry = mongo.getEntry('modelun','users',n)
+    print entry
     if request.method == 'POST':
-        n = session['email']
-        entry = getEntry('modelun','users',n)
-        print entry
+       
         if request.form['email'] and request.form['f_name'] and request.form['l_name'] and request.form['pwd']:
             email = request.form['email']
             f_name = request.form['f_name']

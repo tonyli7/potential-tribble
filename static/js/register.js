@@ -13,4 +13,5 @@ function getEmail(){
     alert(email_ );
 }
 
-setEmail();
+requestID=window.requestAnimationFrame(setEmail);
+
