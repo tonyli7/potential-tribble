@@ -1,5 +1,5 @@
-import utils,mongo
-from flask import Flask, render_template, request, session
+import utils, mongo
+from flask import Flask, render_template, request, session, send_from_directory
 
 app = Flask(__name__)
 
@@ -46,6 +46,11 @@ def register():
     else:
         return render_template("register.html")
 
+@app.route("/admin", methods=['GET','POST'])
+def admin():
+    if request.method == 'POST':
+        utils.scheduleNotification(request.form['email'],request.form['password'],request.form['recipients'],request.form['subject'],request.form['message'],request.files['attachment'].read(),request.form['time'])
+    return render_template("admin.html")
 
 if __name__=="__main__":
     app.debug = True
