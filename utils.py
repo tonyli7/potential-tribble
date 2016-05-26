@@ -34,7 +34,7 @@ def emailUser(username, password, receiver, subject, message, attachments):
     msg["To"]=",".join(receiver)
     msg["Subject"]=subject
     msg.attach(email.MIMEText.MIMEText(message,"plain"))
-    msg.attach(MIMEApplication(attachments))
+    #msg.attach(MIMEApplication(attachments))
     #message = "To: {}\nFrom: {}\nSubject: {}\n\n{}\n\n".format(receiver,username,subject,message)
     smtpserver.sendmail(username, receiver, msg.as_string())
     smtpserver.quit()
