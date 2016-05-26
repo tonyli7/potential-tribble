@@ -7,7 +7,7 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 28px;
     margin: 4px 2px;
     -webkit-transition-duration: 0.4s; /* Safari */
     transition-duration: 0.4s;
@@ -31,16 +31,18 @@
 }
 
 .main{
-    background-color: #3f3c3c;
+    background-color: rgba(0,0,0,.5);
     height: 300px;
     width: 100%;
-    opacity: .5;
+    
 }
 
 .text{
+    position: absolute;
     color: white;
     font-size: 200px;
     opacity: 1.0;
+    left: 15%;
 }
 
 body{
