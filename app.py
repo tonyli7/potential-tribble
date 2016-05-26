@@ -46,13 +46,8 @@ def register():
 @app.route("/admin", methods=['GET','POST'])
 def admin():
     if request.method == 'POST':
-        att = request.files["attachment"]
-        if att:
-            att.save(os.path.join(app.config["/uploads"],att.filename))
-        utils.scheduleNotification(request.form['email'],request.form['password'],request.form['recipients'],request.form['subject'],request.form['message'],request.form['attachment'],request.form['time'])
-        return "SENT"
-    else:
-        return render_template("admin.html")
+        utils.scheduleNotification(request.form['email'],request.form['password'],request.form['recipients'],request.form['subject'],request.form['message'],request.files['attachment'].read(),request.form['time'])
+    return render_template("admin.html")
 
 if __name__=="__main__":
     app.debug = True

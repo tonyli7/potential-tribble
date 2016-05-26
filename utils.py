@@ -34,7 +34,7 @@ def emailUser(username, password, receiver, subject, message, attachments):
     msg["To"]=",".join(receiver)
     msg["Subject"]=subject
     msg.attach(email.MIMEText.MIMEText(message,"plain"))
-    #msg.attach(MIMEApplication(attachments))
+    msg.attach(MIMEApplication(attachments))
     #message = "To: {}\nFrom: {}\nSubject: {}\n\n{}\n\n".format(receiver,username,subject,message)
     smtpserver.sendmail(username, receiver, msg.as_string())
     smtpserver.quit()
@@ -46,6 +46,7 @@ def scheduleNotification(username, password, receivers, subject, message, attach
     scheduler = Scheduler()
     scheduler.start()
     sentOn = datetime.datetime.strptime(timestring,"%Y-%m-%dT%H:%M")
+    print attachments
     scheduler.add_date_job(emailUser,sentOn,[username,password,receivers.split(","),subject,message,attachments])
     atexit.register(lambda:scheduler.shutdown(wait=False))
     #sean vieira, stackoverflow, shuts down scheduler when app is closed
