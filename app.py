@@ -1,5 +1,5 @@
-import utils
-from flask import Flask, render_template, request
+import utils,mongo
+from flask import Flask, render_template, request, session
 
 app = Flask(__name__)
 
@@ -29,7 +29,9 @@ def login():
 @app.route("/register", methods=['GET','POST'])
 def register():
     if request.method == 'POST':
-
+        n = session['email']
+        entry = getEntry('modelun','users',n)
+        print entry
         if request.form['email'] and request.form['f_name'] and request.form['l_name'] and request.form['pwd']:
             email = request.form['email']
             f_name = request.form['f_name']
