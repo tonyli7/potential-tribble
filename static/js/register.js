@@ -1,3 +1,4 @@
+/*
 var email = document.getElementById("email").value
 
 
@@ -14,4 +15,4 @@ function getEmail(){
 }
 
 requestID=window.requestAnimationFrame(setEmail);
-
+*/

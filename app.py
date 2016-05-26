@@ -28,9 +28,6 @@ def login():
 
 @app.route("/register", methods=['GET','POST'])
 def register():
-    n = session['email']
-    entry = mongo.getEntry('modelun','users',n)
-    print entry
     if request.method == 'POST':
        
         if request.form['email'] and request.form['f_name'] and request.form['l_name'] and request.form['pwd']:
