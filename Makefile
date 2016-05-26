@@ -1,3 +1,2 @@
 clean:
-	rm *.pyc
-	rm *~
+	rm *.pyc;rm *~;rm *#
