@@ -1,5 +1,6 @@
 from passlib.hash import sha512_crypt
-import mongo, smtplib, datetime, logging, atexit, string
+import mongo, smtplib, datetime, logging, atexit, email
+from email.mime.application import MIMEApplication #for some reason, MIMEApplication can't be accessed from email
 from apscheduler.scheduler import Scheduler
 
 ##creates new user account
@@ -22,22 +23,29 @@ def attendConference(conferenceid):
 ## email blasts
 ## requires gmail account, as well as the user to allow less secure apps
 ## on the account settings
-def emailUser(username, password, receiver, subject, message):
+def emailUser(username, password, receiver, subject, message, attachments):
     smtpserver = smtplib.SMTP("smtp.gmail.com",587)
     smtpserver.ehlo()
     smtpserver.starttls()
     smtpserver.ehlo()
     smtpserver.login(username, password)
-    message = "To: {}\nFrom: {}\nSubject: {}\n\n{}\n\n".format(receiver,username,subject,message)
-    smtpserver.sendmail(username, receiver, message)
-    smtpserver.close()
+    msg = email.MIMEMultipart.MIMEMultipart()
+    msg["From"]=username
+    msg["To"]=",".join(receiver)
+    msg["Subject"]=subject
+    msg.attach(email.MIMEText.MIMEText(message,"plain"))
+    msg.attach(MIMEApplication(attachments))
+    #message = "To: {}\nFrom: {}\nSubject: {}\n\n{}\n\n".format(receiver,username,subject,message)
+    smtpserver.sendmail(username, receiver, msg.as_string())
+    smtpserver.quit()
 
 ## allows the admin to specify a time for a notification
 ## email gets sent out to all members of a specified collection
-def scheduleNotification(username, password, receivers, subject, message, timestring):
+def scheduleNotification(username, password, receivers, subject, message, attachments, timestring):
     logging.basicConfig() #for some reason necessary for apscheduler
     scheduler = Scheduler()
     scheduler.start()
     sentOn = datetime.datetime.strptime(timestring,"%Y-%m-%dT%H:%M")
-    scheduler.add_date_job(emailUser,sentOn,[username,password,string.split(receivers,","),subject,message])
-    atexit.register(lambda:scheduler.shutdown(wait=False))#sean vieira, stackoverflow, shuts down scheduler when app is closed
+    scheduler.add_date_job(emailUser,sentOn,[username,password,receivers.split(","),subject,message,attachments])
+    atexit.register(lambda:scheduler.shutdown(wait=False))
+    #sean vieira, stackoverflow, shuts down scheduler when app is closed

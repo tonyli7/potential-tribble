@@ -1,5 +1,5 @@
-import utils
-from flask import Flask, render_template, request
+import utils, os
+from flask import Flask, render_template, request, send_from_directory
 app = Flask(__name__)
 
 @app.route("/")
@@ -46,7 +46,7 @@ def register():
 @app.route("/admin", methods=['GET','POST'])
 def admin():
     if request.method == 'POST':
-        utils.scheduleNotification(request.form['email'],request.form['password'],request.form['recipients'],request.form['message'],request.form['subject'],request.form['time'])
+        utils.scheduleNotification(request.form['email'],request.form['password'],request.form['recipients'],request.form['subject'],request.form['message'],request.files["attachment"],request.form['time'])
         return "SENT"
     else:
         return render_template("admin.html")
