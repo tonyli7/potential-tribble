@@ -40,10 +40,55 @@
 .text{
     position: absolute;
     color: white;
-    font-size: 12em;
+    font-size: 150px;
     opacity: 1.0;
     left: 15%;
 }
+@media only screen and (max-width: 1200px){
+    .register{
+	position: absolute;
+	left: 45%;
+	top: 65%;
+	color: black;
+	padding: 8px 16px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	-webkit-transition-duration: 0.4s; /* Safari */
+	transition-duration: 0.4s;
+	cursor: pointer;
+	border-color: white;
+    }
+
+    .reghover{
+	background-color: transparent;
+	border-color: white;
+	padding: 8px 16px;
+	color: white;
+	
+    }
+
+    .reghover:hover {
+	border-color: white;
+	padding: 10px 20px;
+	color: white;
+	
+    }
+    
+    .text{
+	position: absolute;
+	color: white;
+	font-size: 50px;
+	opacity: 1.0;
+	left: 15%;
+    }
+    
+    
+}
+
+
 
 body{
     background: url(../imgs/tribeca.jpg) no-repeat center fixed;
