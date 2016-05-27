@@ -1,10 +1,9 @@
-import utils, mongo, requests
+import utils, mongo
 from flask import Flask, session, render_template, url_for, request, redirect, send_from_directory
 
 
 app = Flask(__name__)
 
-app.secret_key = "123secretkey"
 
 @app.route("/")
 @app.route("/home")
@@ -14,7 +13,7 @@ def home():
 
 @app.route("/login", methods = ['GET','POST'])
 def login():
-    if not session["loggedin"] == "t":
+    if session.keys().count("loggedin") == 0:
 
         if request.method == 'POST':
 
@@ -24,6 +23,7 @@ def login():
                 pwd = request.form['pwd']
 
                 if utils.pwordAuth(email,pwd,"admin"):
+                    session["loggedin"] = email
                     return render_template("home.html")
                 else:
                     return render_template("login.html", failure="email/password combination does not exist.")
