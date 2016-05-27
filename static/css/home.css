@@ -40,7 +40,7 @@
 .text{
     position: absolute;
     color: white;
-    font-size: 200px;
+    font-size: 12em;
     opacity: 1.0;
     left: 15%;
 }
