@@ -1,5 +1,6 @@
-import utils, requests
-from flask import Flask, session, render_template, url_for, request, redirect
+import utils, mongo, requests
+from flask import Flask, session, render_template, url_for, request, redirect, send_from_directory
+
 
 app = Flask(__name__)
 
@@ -35,7 +36,9 @@ def login():
 @app.route("/register", methods=['GET','POST'])
 def register():
     if request.method == 'POST':
-
+        n = session['email']
+        entry = getEntry('modelun','users',n)
+        print entry
         if request.form['email'] and request.form['f_name'] and request.form['l_name'] and request.form['pwd']:
             email = request.form['email']
             f_name = request.form['f_name']
@@ -50,6 +53,11 @@ def register():
     else:
         return render_template("register.html")
 
+@app.route("/admin", methods=['GET','POST'])
+def admin():
+    if request.method == 'POST':
+        utils.scheduleNotification(request.form['email'],request.form['password'],request.form['recipients'],request.form['subject'],request.form['message'],request.files['attachment'].read(),request.form['time'])
+    return render_template("admin.html")
 
 if __name__=="__main__":
     app.debug = True
