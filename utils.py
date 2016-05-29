@@ -35,7 +35,8 @@ def emailUser(username, password, receiver, subject, message, attachments):
     #when no value is assigned to msg['To'], those named as receivers in sendmail are bcc'ed
     msg["Subject"]=subject
     msg.attach(email.MIMEText.MIMEText(message,"plain"))
-    msg.attach(MIMEApplication(attachments))
+    if attachments:
+        msg.attach(MIMEApplication(attachments))
     smtpserver.sendmail(username, receiver, msg.as_string())
     smtpserver.quit()
 

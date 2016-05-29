@@ -1,4 +1,4 @@
-Mr. Brown meeting Notes:
+Mr. Brown meeting Notes (Meeting One):
 
 streamlined and simple
 effective web design (look it up) "flat design"
@@ -14,3 +14,35 @@ clarify language for payment and make it easy to pay
   reminds you via email
 
 lweiner@stuy.edu
+
+Lucas Weiner Meeting Notes (Meeting Two):
+5/26/16
+
+Meeting 5/26/16
+
+students want to sign up their teams, sometimes faculty advisors sign up
+if student registers get contact info of faculty advisor
+form changes depending on advisor or student
+if student, require contact info for an advisor
+some files will only get sent to advisors
+
+ABOUT TAB
+contact information which allows user to send email through the website
+emails all go certain email, chosen by STUYMUNC
+all emails will get an automated response, acknowledging reception
+google map that shows stuy and a five block radius
+setup a conference schedule
+upload images(homepage or about page - carousel,scroll through images)
+
+Space for adding simple descriptions
+Tab solely for stuy students
+
+filters to allow who to send emails to
+mailing list for people who are interested, but dont want to register
+after a conference, attendees get automatically moved to an interest list unless they explicitly request to unregister
+simple way of en masse moving plaintext list to db
+
+Registration for conferences should be separate from registering an account
+email, firstname, lastname on email interest list
+
+firstname, lastname should be included in emails

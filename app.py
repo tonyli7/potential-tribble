@@ -1,6 +1,9 @@
-import utils, os
-from flask import Flask, render_template, request, send_from_directory
+import utils, mongo
+from flask import Flask, session, render_template, url_for, request, redirect, send_from_directory
+
+
 app = Flask(__name__)
+
 
 @app.route("/")
 @app.route("/home")
@@ -9,25 +12,30 @@ def home():
 
 @app.route("/login", methods = ['GET','POST'])
 def login():
-    if request.method == 'POST':
+    if session.keys().count("loggedin") == 0:
 
-        if request.form['email'] and request.form['pwd']:
+        if request.method == 'POST':
 
-            email = request.form['email']
-            pwd = request.form['pwd']
+            if request.form['email'] and request.form['pwd']:
 
-            if utils.pwordAuth(email,pwd,"admin"):
-                return render_template("home.html")
-            else:
-                return render_template("login.html", failure="email/password combination does not exist.")
+                email = request.form['email']
+                pwd = request.form['pwd']
+
+                if utils.pwordAuth(email,pwd,"admin"):
+                    session["loggedin"] = email
+                    return render_template("home.html")
+                else:
+                    return render_template("login.html", failure="email/password combination does not exist.")
+        else:
+            return render_template("login.html")
     else:
-        return render_template("login.html")
+        return redirect(url_for("home"))
 
 
 @app.route("/register", methods=['GET','POST'])
 def register():
     if request.method == 'POST':
-
+       
         if request.form['email'] and request.form['f_name'] and request.form['l_name'] and request.form['pwd']:
             email = request.form['email']
             f_name = request.form['f_name']
