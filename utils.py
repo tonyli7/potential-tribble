@@ -67,15 +67,18 @@ def respondToEmails(username,password,response_subject,automated_response):
                     status,data = conn.fetch(msg_id,'(BODY[HEADER.FIELDS (FROM)])')
                     response = parser.parsestr(data[0][1])
                     recipients.append(response["From"])
-                    response["From"]=username
-                    response["Subject"]=response_subject
                     conn.store(msg_id,'+FLAGS','\Seen')
                 smtpserver = smtplib.SMTP("smtp.gmail.com",587)
                 smtpserver.ehlo()
                 smtpserver.starttls()
                 smtpserver.ehlo()
                 smtpserver.login(username, password)
-                smtpserver.sendmail(username,recipients,automated_response)
+                response = email.MIMEMultipart.MIMEMultipart()
+                response["From"]=username
+                response["Subject"]=response_subject
+                response.attach(email.MIMEText.MIMEText(automated_response,"plain"))
+                smtpserver.sendmail(username,recipients,response.as_string())
+                smtpserver.quit()
     conn.close()
 
 def scheduleEmailListener(username,password,response_subject,automated_response):

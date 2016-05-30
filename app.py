@@ -57,7 +57,7 @@ def admin():
     return render_template("admin.html")
 
 if __name__=="__main__":
-    utils.scheduleEmailListener("longbranchpennywhistler@gmail.com","burtonthebillowybear","RE: Your message has been received","Your response has been received and we will get back to you as soon as possible.<br><br>Do not respond to this message.")
+    utils.scheduleEmailListener("longbranchpennywhistler@gmail.com","burtonthebillowybear","RE: Your message has been received","Your response has been received and we will get back to you as soon as possible. Do not respond to this message.")
     app.debug = True
     app.secret_key="Don't upload to github"
     app.run(host='0.0.0.0', port=8000, use_reloader=False)
