@@ -1,7 +1,25 @@
 import utils,mongo
 from flask import Flask, render_template, request, session
+from bs4 import BeautifulSoup
 
 app = Flask(__name__)
+
+
+def updateAbout(text):
+    about = open("templates/about.html","r")
+    t = about.read()
+    soup = BeautifulSoup(t, 'html.parser')
+    lines = t.split('\n')[:2]
+    
+    soup.p.replaceWith("<p>"+text+"</p>")
+    #soup.p = "<p>"+text+"</p>"
+    new = lines[0]+"\n"+lines[1]+"\n"+soup.get_text()
+    about.close()
+    
+    about = open("templates/about.html","w")
+    about.write(new)
+    about.close()
+    
 
 @app.route("/")
 @app.route("/home")
@@ -45,6 +63,21 @@ def register():
         return render_template("register.html")
 
 
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/edit", methods=['GET','POST'])
+def edit():
+    if request.method == 'POST':
+        
+        text = request.form['about']
+       
+        updateAbout(text)
+        return render_template("edit.html")
+    else:
+        return render_template("edit.html")
+        
 if __name__=="__main__":
     app.debug = True
     app.secret_key="Don't upload to github"
