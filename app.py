@@ -1,25 +1,9 @@
 import utils,mongo
-from flask import Flask, render_template, request, session
-from bs4 import BeautifulSoup
+from flask import Flask, render_template, request, session, redirect
+
 
 app = Flask(__name__)
 
-
-def updateAbout(text):
-    about = open("templates/about.html","r")
-    t = about.read()
-    soup = BeautifulSoup(t, 'html.parser')
-    lines = t.split('\n')[:2]
-    
-    soup.p.replaceWith("<p>"+text+"</p>")
-    #soup.p = "<p>"+text+"</p>"
-    new = lines[0]+"\n"+lines[1]+"\n"+soup.get_text()
-    about.close()
-    
-    about = open("templates/about.html","w")
-    about.write(new)
-    about.close()
-    
 
 @app.route("/")
 @app.route("/home")
@@ -29,19 +13,24 @@ def home():
 
 @app.route("/login", methods = ['GET','POST'])
 def login():
-    if request.method == 'POST':
+    if session.keys().count("loggedin") == 0:
 
-        if request.form['email'] and request.form['pwd']:
+        if request.method == 'POST':
 
-            email = request.form['email']
-            pwd = request.form['pwd']
+            if request.form['email'] and request.form['pwd']:
 
-            if utils.pwordAuth(email,pwd,"admin"):
-                return render_template("home.html")
-            else:
-                return render_template("login.html", failure="email/password combination does not exist.")
+                email = request.form['email']
+                pwd = request.form['pwd']
+
+                if utils.pwordAuth(email,pwd,"admin"):
+                    session["loggedin"] = email
+                    return render_template("home.html")
+                else:
+                    return render_template("login.html", failure="email/password combination does not exist.")
+        else:
+            return render_template("login.html")
     else:
-        return render_template("login.html")
+        return redirect(url_for("home"))
 
 
 @app.route("/register", methods=['GET','POST'])
@@ -62,6 +51,11 @@ def register():
     else:
         return render_template("register.html")
 
+@app.route("/admin", methods=['GET','POST'])
+def admin():
+    if request.method == 'POST':
+        utils.scheduleNotification(request.form['email'],request.form['password'],request.form['recipients'],request.form['subject'],request.form['message'],request.files['attachment'].read(),request.form['time'])
+    return render_template("admin.html")
 
 @app.route("/about")
 def about():
@@ -73,7 +67,7 @@ def edit():
         
         text = request.form['about']
        
-        updateAbout(text)
+        utils.updateAbout(text)
         return render_template("edit.html")
     else:
         return render_template("edit.html")
