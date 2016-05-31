@@ -1,9 +1,7 @@
 import utils, mongo
 from flask import Flask, session, render_template, url_for, request, redirect, send_from_directory
 
-
 app = Flask(__name__)
-
 
 @app.route("/")
 @app.route("/home")
@@ -53,11 +51,13 @@ def register():
 @app.route("/admin", methods=['GET','POST'])
 def admin():
     if request.method == 'POST':
-        utils.scheduleNotification(request.form['email'],request.form['password'],request.form['recipients'],request.form['subject'],request.form['message'],request.files['attachment'].read(),request.form['time'])
+        if 'schedule-email' in request.form:
+            utils.scheduleNotification(request.form['email'],request.form['password'],request.form['recipients'],request.form['subject'],request.form['message'],request.files['attachment'].read(),request.form['time'])
+        if 'set-reply' in request.form:
+            utils.scheduleEmailListener(request.form['email'],request.form['password'],request.form['subject'],request.form['response'])
     return render_template("admin.html")
 
 if __name__=="__main__":
-    utils.scheduleEmailListener("longbranchpennywhistler@gmail.com","burtonthebillowybear","RE: Your message has been received","Your response has been received and we will get back to you as soon as possible. Do not respond to this message.")
     app.debug = True
     app.secret_key="Don't upload to github"
     app.run(host='0.0.0.0', port=8000, use_reloader=False)

@@ -2,6 +2,7 @@
   <body>
     <a href="/">Home</a>
     <form method="POST" enctype="multipart/form-data">
+      Schedule a Message
       Username<input name="email" type="email">
       Password<input name="password" type="password">
       Recipients<input name="recipients" type="text">
@@ -9,7 +10,15 @@
       Subject<input name="subject" type="text">
       Message<input name="message" type="text">
       Attachments<input name="attachment" type="file">
-      <input type="submit" value="submit">
+      <input name="schedule-email" type="submit" value="submit">
+    </form>
+    <form method="POST">
+      Set an Automatic Reply
+      Username<input name="email" type="email">
+      Password<input name="password" type="password">
+      Response Subject<input name="subject" type="text">
+      Response<input name="response" type="text">
+      <input name="set-reply" type="submit" value="submit">
     </form>
   </body>
 </html>
