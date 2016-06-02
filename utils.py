@@ -52,7 +52,6 @@ def scheduleNotification(username, password, receivers, subject, message, attach
     atexit.register(lambda:scheduler.shutdown(wait=False))
     #sean vieira, stackoverflow, shuts down scheduler when app is closed
 
-<<<<<<< HEAD
 #checks for unseen emails and sends an automated response
 def respondToEmails(username,password,response_subject,automated_response):
     conn = imaplib.IMAP4_SSL("imap.gmail.com")
