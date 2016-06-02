@@ -1,5 +1,5 @@
-import utils, mongo
-from flask import Flask, session, render_template, url_for, request, redirect, send_from_directory
+import utils,mongo
+from flask import Flask, render_template, request, session, redirect
 
 app = Flask(__name__)
 
@@ -57,6 +57,21 @@ def admin():
             utils.scheduleEmailListener(request.form['email'],request.form['password'],request.form['subject'],request.form['response'])
     return render_template("admin.html")
 
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/edit", methods=['GET','POST'])
+def edit():
+    if request.method == 'POST':
+        
+        text = request.form['about']
+       
+        utils.updateAbout(text)
+        return render_template("edit.html")
+    else:
+        return render_template("edit.html")
+        
 if __name__=="__main__":
     app.debug = True
     app.secret_key="Don't upload to github"

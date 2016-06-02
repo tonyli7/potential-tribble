@@ -1,0 +1,11 @@
+body{
+    background: url(../imgs/tribeca.jpg) no-repeat center fixed;
+    background-size: cover;
+}
+
+p{
+    color: white;
+    word-wrap: break-word;
+    width: 50%;
+    background-color: black;
+}
