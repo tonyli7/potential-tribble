@@ -66,7 +66,6 @@ def edit():
     if request.method == 'POST':
         
         text = request.form['about']
-       
         utils.updateAbout(text)
         return render_template("edit.html")
     else:
