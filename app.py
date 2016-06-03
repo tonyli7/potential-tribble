@@ -33,7 +33,7 @@ def login():
 @app.route("/register", methods=['GET','POST'])
 def register():
     if request.method == 'POST':
-       
+
         if request.form['email'] and request.form['f_name'] and request.form['l_name'] and request.form['pwd']:
             email = request.form['email']
             f_name = request.form['f_name']
@@ -75,6 +75,3 @@ if __name__=="__main__":
     app.debug = True
     app.secret_key="Don't upload to github"
     app.run(host='0.0.0.0', port=8000, use_reloader=False)
-    
-    
-    
