@@ -3,6 +3,7 @@ from passlib.hash import sha512_crypt
 from email.mime.application import MIMEApplication 
 from email.parser import HeaderParser
 from apscheduler.scheduler import Scheduler
+from bs4 import BeautifulSoup
 
 ##creates new user account
 def createUser(uname, pword, atype):
@@ -87,3 +88,19 @@ def scheduleEmailListener(username,password,response_subject,automated_response)
     scheduler.start()
     scheduler.add_interval_job(respondToEmails,minutes=5,args=[username,password,response_subject,automated_response])
     atexit.register(lambda:scheduler.shutdown(wait=False))
+
+def updateAbout(text):
+    about = open("templates/about.html","r")
+    t = about.read()
+    soup = BeautifulSoup(t, 'html.parser')
+    lines = t.split('\n')[:2]
+    
+    soup.p.replaceWith("<p>"+text+"</p>")
+    #soup.p = "<p>"+text+"</p>"
+    new = lines[0]+"\n"+lines[1]+"\n"+soup.get_text()
+    about.close()
+    
+    about = open("templates/about.html","w")
+    about.write(new)
+    about.close()
+

@@ -1,0 +1,20 @@
+body{
+/* 
+   background: url(../imgs/tribeca.jpg) no-repeat center fixed;
+   background-size: cover;
+   */
+}
+
+.title{
+    text-decoration: underline;
+    position: relative;
+    left: 40%;
+    width: 100%;
+}
+
+p{
+    color: white;
+    word-wrap: break-word;
+    width: 50%;
+    background-color: black;
+}
