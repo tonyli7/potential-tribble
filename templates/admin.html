@@ -9,7 +9,7 @@
       Time<input name="time" type="datetime-local">
       Subject<input name="subject" type="text">
       Message<input name="message" type="text">
-      Attachments<input name="attachment" type="file">
+      Attachments<input name="attachment" type="file" multiple>
       <input name="schedule-email" type="submit" value="submit">
     </form>
     <form method="POST">
@@ -19,6 +19,11 @@
       Response Subject<input name="subject" type="text">
       Response<input name="response" type="text">
       <input name="set-reply" type="submit" value="submit">
+    </form>
+    <form method="POST" enctype="multipart/form-data">
+      Upload a File to Gallery
+      <input type="file" name="file">
+      <input name="upload-file" type="submit" value="submit">
     </form>
   </body>
 </html>

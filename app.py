@@ -1,7 +1,9 @@
-import utils,mongo
-from flask import Flask, render_template, request, session, redirect
+import utils, mongo, os
+from flask import Flask, session, render_template, url_for, request, redirect, send_from_directory
 
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = './uploads'
 
 @app.route("/")
 @app.route("/home")
@@ -41,7 +43,6 @@ def register():
             pwd = request.form['pwd']
 
             utils.createUser(email, pwd, "admin")
-
             return render_template("register.html", success="You've successfully registered!")
         else:
             return render_template("register.html", success="You've left some fields empty")
@@ -52,9 +53,20 @@ def register():
 def admin():
     if request.method == 'POST':
         if 'schedule-email' in request.form:
-            utils.scheduleNotification(request.form['email'],request.form['password'],request.form['recipients'],request.form['subject'],request.form['message'],request.files['attachment'].read(),request.form['time'])
+            file_bins=[]
+            if request.files['attachment']:
+                files = request.files.getlist('attachment')
+                file_bins = [(attachment.filename,attachment.read()) for attachment in files]
+            utils.scheduleNotification(request.form['email'],request.form['password'],request.form['recipients'],request.form['subject'],request.form['message'],file_bins,request.form['time'])
+            
         if 'set-reply' in request.form:
             utils.scheduleEmailListener(request.form['email'],request.form['password'],request.form['subject'],request.form['response'])
+        if 'upload-file' in request.form:
+            file = request.files['file']
+            if file and allowed_file(file.filename):
+                filename = file.filename#might need werkzeug.secure_filename()
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+                return redirect(url_for('uploaded_file',filename=filename))        
     return render_template("admin.html")
 
 @app.route("/about")
@@ -71,8 +83,17 @@ def edit():
         return render_template("edit.html")
     else:
         return render_template("edit.html")
-        
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+    
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
+
 if __name__=="__main__":
     app.debug = True
     app.secret_key="Don't upload to github"
     app.run(host='0.0.0.0', port=8000, use_reloader=False)
+

@@ -20,7 +20,7 @@ def pwordAuth(uname, pword, atype):
 
 ## sign up to attend a conference
 def attendConference(conferenceid):
-    pass
+    user = mongo.getEntry("modelun","attendees",{"email":email})
 
 ## email blasts
 ## requires gmail account, as well as the user to allow less secure apps
@@ -36,8 +36,10 @@ def emailUser(username, password, receiver, subject, message, attachments):
     #when no value is assigned to msg['To'], those named as receivers in sendmail are bcc'ed
     msg["Subject"]=subject
     msg.attach(email.MIMEText.MIMEText(message,"plain"))
-    if attachments:
-        msg.attach(MIMEApplication(attachments))
+    for attachment in attachments:
+        att = MIMEApplication(attachment[1])
+        att.add_header("Content-Disposition","attachment",filename=attachment[0])
+        msg.attach(att)
     smtpserver.sendmail(username, receiver, msg.as_string())
     smtpserver.quit()
 
@@ -104,3 +106,37 @@ def updateAbout(text):
     about.write(new)
     about.close()
 
+class EventNode():
+    def __init__(self,event,description,start,end,next_node):
+        self.data={"event":event,"description":description,"start":start,"end":end}
+        self.next_node=next_node
+    def getData(self,data):
+        return data
+    def getField(self,field):
+        return data[field]
+    def getNext(self):
+        return self.next_node
+    def setData(self,data):
+        self.data=data
+    def setField(self,field,value):
+        self.data[field]=value
+    def setNext(self,next_node):
+        self.next_node=next_node
+
+schedule = None
+
+def addEvent(schedule,event,description,start,end):
+    print schedule
+    if schedule == None:
+        schedule = EventNode(event,description,start,end,schedule)
+    else:
+        while schedule.getNext() != None and schedule.getNext().getStart()> start:
+            schedule=schedule.getNext()
+        event = EventNode(event,description,start,end,schedule.getNext())
+        schedule.setNext(event)
+    print schedule
+    
+def printSchedule(schedule):
+    while schedule != None:
+        print schedule.getData()
+        schedule = schedule.getNext()
