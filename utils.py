@@ -1,4 +1,4 @@
-import mongo, smtplib, datetime, logging, atexit, email, imaplib
+import mongo, smtplib, datetime, logging, atexit, email, imaplib, settings
 from passlib.hash import sha512_crypt
 from email.mime.application import MIMEApplication 
 from email.parser import HeaderParser
@@ -84,6 +84,7 @@ def respondToEmails(username,password,response_subject,automated_response):
                 smtpserver.quit()
     conn.close()
 
+#sets up a listener to connect to the specified email every five minutes and respond to any unread mail with the automated response
 def scheduleEmailListener(username,password,response_subject,automated_response):
     logging.basicConfig()
     scheduler=Scheduler()
@@ -106,14 +107,15 @@ def updateAbout(text):
     about.write(new)
     about.close()
 
+#'event' object used for schedule
 class EventNode():
     def __init__(self,event,description,start,end,next_node):
         self.data={"event":event,"description":description,"start":start,"end":end}
         self.next_node=next_node
-    def getData(self,data):
-        return data
+    def getData(self):
+        return self.data
     def getField(self,field):
-        return data[field]
+        return self.data[field]
     def getNext(self):
         return self.next_node
     def setData(self,data):
@@ -123,19 +125,17 @@ class EventNode():
     def setNext(self,next_node):
         self.next_node=next_node
 
-schedule = None
+#actual schedule
+schedule = EventNode(None,None,None,None,None)
 
+#add event to schedule
 def addEvent(schedule,event,description,start,end):
-    print schedule
-    if schedule == None:
-        schedule = EventNode(event,description,start,end,schedule)
-    else:
-        while schedule.getNext() != None and schedule.getNext().getStart()> start:
-            schedule=schedule.getNext()
-        event = EventNode(event,description,start,end,schedule.getNext())
-        schedule.setNext(event)
-    print schedule
-    
+    while schedule.getNext() != None and schedule.getNext().getField("start") < start:
+        schedule=schedule.getNext()
+    event = EventNode(event,description,start,end,schedule.getNext())
+    schedule.setNext(event)
+
+#print schedule
 def printSchedule(schedule):
     while schedule != None:
         print schedule.getData()

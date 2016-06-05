@@ -1,29 +1,81 @@
-<html>
-  <body>
-    <a href="/">Home</a>
-    <form method="POST" enctype="multipart/form-data">
-      Schedule a Message
-      Username<input name="email" type="email">
-      Password<input name="password" type="password">
-      Recipients<input name="recipients" type="text">
-      Time<input name="time" type="datetime-local">
-      Subject<input name="subject" type="text">
-      Message<input name="message" type="text">
-      Attachments<input name="attachment" type="file" multiple>
-      <input name="schedule-email" type="submit" value="submit">
-    </form>
-    <form method="POST">
-      Set an Automatic Reply
-      Username<input name="email" type="email">
-      Password<input name="password" type="password">
-      Response Subject<input name="subject" type="text">
-      Response<input name="response" type="text">
-      <input name="set-reply" type="submit" value="submit">
-    </form>
-    <form method="POST" enctype="multipart/form-data">
-      Upload a File to Gallery
+<!DOCTYPE HTML>
+<link rel="stylesheet" type="text/css" href="../static/css/admin.css">
+
+{% extends "base.html"%}
+{% block body%}
+
+<h1 class="title">Administrator's Dashboard</h1>
+<form method="POST" enctype="multipart/form-data">
+  <div class="input-group">
+    <h3>Schedule a Message</h3>
+    <div class="col-sm-6 form-group">
+      <label>Username</label>
+      <input name="email" type="email" class="form-control">    
+    </div>
+    <div class="col-sm-6 form-group">
+      <label>Password</label>
+      <input name="password" type="password" class="form-control">
+    </div>
+    <div class="col-sm-6 form-group">
+      <label>Recipients</label>
+      <input name="recipients" type="text" class="form-control">
+    </div>
+    <div class="col-sm-6 form-group">
+      <label>Subject</label>
+      <input name="subject" type="text" class="form-control">
+    </div>
+    <div class="col-sm-12 form-group">
+      <label>Message</label>
+      <textarea name="message" class="form-control" rows="3"></textarea>
+    </div>
+    <div class="col-sm-6 form-group">
+      <label>Attachments</label><input name="attachment" type="file" multiple>
+    </div>
+    <div class="col-sm-6 form-group">
+      <label>Time</label>
+      <input name="time" type="datetime-local" class="form-control">
+    </div>
+    <div class="col-sm-6 form-group">
+      <input name="schedule-email" class="btn btn-default" type="submit" value="submit">
+    </div>
+  </div>
+</form>
+<form method="POST" enctype="multipart/form-data">
+  <div class="input-group">
+    <h3>Set an Automatic Reply</h3>
+    <div class="col-sm-6 form-group">
+      <label>Username</label>
+      <input name="email" type="email" class="form-control">
+    </div>
+    <div class="col-sm-6 form-group">
+      <label>Password</label>
+      <input name="password" type="password" class="form-control">
+    </div>
+    <div class="col-sm-6 form-group">
+      <label>Response Subject</label>
+      <input name="subject" type="text" class="form-control">
+    </div>
+    <div class="col-sm-12 form-group">
+      <label>Response</label>
+      <textarea name="response" type="text" class="form-control" rows="3"></textarea>
+    </div>
+    <div class="col-sm-6 form-group">
+      <input name="set-reply" class="btn btn-default" type="submit" value="submit">
+    </div>
+  </div>
+</form>
+<form method="POST" enctype="multipart/form-data">
+  <div class="input-group">
+    <h3>Upload a File to Gallery</h3>
+    <div class="col-sm-12 form-group">
       <input type="file" name="file">
-      <input name="upload-file" type="submit" value="submit">
-    </form>
-  </body>
-</html>
+    </div>
+    <div class="col-sm-12 form-group">
+      <input name="upload-file" class="btn btn-default" type="submit" value="submit">
+    </div>
+  </div>
+</form>
+
+{% endblock%}
+
+

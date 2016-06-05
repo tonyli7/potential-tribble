@@ -1,4 +1,4 @@
-import utils, mongo, os
+import utils, mongo, os, settings
 from flask import Flask, session, render_template, url_for, request, redirect, send_from_directory
 
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
@@ -58,7 +58,7 @@ def admin():
                 files = request.files.getlist('attachment')
                 file_bins = [(attachment.filename,attachment.read()) for attachment in files]
             utils.scheduleNotification(request.form['email'],request.form['password'],request.form['recipients'],request.form['subject'],request.form['message'],file_bins,request.form['time'])
-            
+                 
         if 'set-reply' in request.form:
             utils.scheduleEmailListener(request.form['email'],request.form['password'],request.form['subject'],request.form['response'])
         if 'upload-file' in request.form:
@@ -66,7 +66,7 @@ def admin():
             if file and allowed_file(file.filename):
                 filename = file.filename#might need werkzeug.secure_filename()
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
-                return redirect(url_for('uploaded_file',filename=filename))        
+                return redirect(url_for('uploaded_file',filename=filename))     
     return render_template("admin.html")
 
 @app.route("/about")
@@ -96,4 +96,3 @@ if __name__=="__main__":
     app.debug = True
     app.secret_key="Don't upload to github"
     app.run(host='0.0.0.0', port=8000, use_reloader=False)
-
