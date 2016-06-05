@@ -24,7 +24,7 @@ def listEntry(database,collection):
 def getEntry(database,collection,query):
     client = MongoClient()
     collection = client[database][collection]
-    entry = collection.find_one(query)
+    entry = collection.find(query)
     client.close()
     return entry
 
