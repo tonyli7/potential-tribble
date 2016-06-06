@@ -21,12 +21,22 @@
       <input name="recipients" type="text" class="form-control">
     </div>
     <div class="col-sm-6 form-group">
+      <label>Recipients</label>
+      <select class="form-control" name="recipient-category">
+	<option></option>
+	{% for collection in collections %}
+	<option>{{collection}}</option>
+	{% endfor %}
+      </select>
+    </div>
+    <div class="col-sm-12 form-group">
       <label>Subject</label>
       <input name="subject" type="text" class="form-control">
     </div>
     <div class="col-sm-12 form-group">
       <label>Message</label>
-      <textarea name="message" class="form-control" rows="3"></textarea>
+      <textarea name="message" class="form-control" rows="3">
+      </textarea>
     </div>
     <div class="col-sm-6 form-group">
       <label>Attachments</label><input name="attachment" type="file" multiple>
@@ -51,7 +61,7 @@
       <label>Password</label>
       <input name="password" type="password" class="form-control">
     </div>
-    <div class="col-sm-6 form-group">
+    <div class="col-sm-12 form-group">
       <label>Response Subject</label>
       <input name="subject" type="text" class="form-control">
     </div>
@@ -75,7 +85,27 @@
     </div>
   </div>
 </form>
-
+<table class="table">
+  <tr>
+    {% for attribute in entries[0] %}
+    {% if attribute != "password" and attribute != "_id" %}
+    <th>{{attribute}}</th>
+    {% endif %}
+    {% endfor %}
+</th>
+{% for entry in entries %}
+<tr>
+  {% for attribute,value in entry.iteritems() %}
+  {% if attribute != "password" and attribute != "_id" %}
+  <td>{{ attribute }} {{ value }}</td>
+  {% endif %}
+  {% endfor %}
+</tr>
+{% endfor %}
+</table>
+<script>
+$('.dropdown-toggle').dropdown()
+</script>
 {% endblock%}
 
 

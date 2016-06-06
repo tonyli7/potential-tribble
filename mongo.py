@@ -4,6 +4,13 @@ from pymongo import MongoClient
 def authenticateMaster():
     pass
 
+#
+def getCollections(database):
+    client = MongoClient()
+    names = client[database].collection_names()
+    client.close()
+    return names
+
 #adds an entry to the specified database and collection
 def addEntry(database,collection,entry):
     client = MongoClient()

@@ -1,26 +1,37 @@
-import mongo, smtplib, datetime, logging, atexit, email, imaplib, settings
+import mongo, smtplib, datetime, logging, atexit, email, imaplib
+
 from passlib.hash import sha512_crypt
 from email.mime.application import MIMEApplication 
 from email.parser import HeaderParser
 from apscheduler.scheduler import Scheduler
 from bs4 import BeautifulSoup
 
-##creates new user account
+## creates new user account
 def createUser(uname, pword, atype):
-    user = mongo.getEntry("modelun","users",{"username":uname})
-    if user is None:
-        mongo.addEntry("modelun","users",{"username":uname,
+    user = mongo.getEntry("modelun","users",{"email":uname})
+    if user.count() == 0:
+        mongo.addEntry("modelun","users",{"email":uname,
                                           "password":sha512_crypt.encrypt(pword),
                                           "type":atype})
 
 ## checks if the username/password/accounttype combination is correct
 def pwordAuth(uname, pword, atype):
-    user = mongo.getEntry("modelun","users",{"username":uname,"type":atype})
+    user = mongo.getEntry("modelun","users",{"email":uname,"type":atype})
     return user is not None and sha512_crypt.verify(pword,user["password"])
 
 ## sign up to attend a conference
 def attendConference(conferenceid):
     user = mongo.getEntry("modelun","attendees",{"email":email})
+
+## sign up as an interested party
+def mailinglist(email):
+    interested = {"email":email}
+    if mongo.getEntry("modelun","interested",interested).count() == 0:
+        mongo.addEntry("modelun","interested",interested)
+
+## print database
+def getCollection(collection):
+    return mongo.getEntry("modelun",collection,{})
 
 ## email blasts
 ## requires gmail account, as well as the user to allow less secure apps
@@ -46,7 +57,7 @@ def emailUser(username, password, receiver, subject, message, attachments):
 ## allows the admin to specify a time for a notification
 ## email gets sent out to all members of a specified collection
 def scheduleNotification(username, password, receivers, subject, message, attachments, timestring):
-    logging.basicConfig() #for some reason necessary for apscheduler
+    logging.basicConfig()
     scheduler = Scheduler()
     scheduler.start()
     sentOn = datetime.datetime.strptime(timestring,"%Y-%m-%dT%H:%M")
