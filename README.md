@@ -8,4 +8,7 @@ Software Development Period 3
 #Deployment
 
 apt-get install pip mongodb-server gunicorn 
+
 pip install -r requirements.txt
+
+gunicorn app:app
