@@ -1,5 +1,4 @@
 import mongo, smtplib, datetime, logging, atexit, email, imaplib
-
 from passlib.hash import sha512_crypt
 from email.mime.application import MIMEApplication 
 from email.parser import HeaderParser
@@ -118,36 +117,15 @@ def updateAbout(text):
     about.write(new)
     about.close()
 
-#'event' object used for schedule
-class EventNode():
-    def __init__(self,event,description,start,end,next_node):
-        self.data={"event":event,"description":description,"start":start,"end":end}
-        self.next_node=next_node
-    def getData(self):
-        return self.data
-    def getField(self,field):
-        return self.data[field]
-    def getNext(self):
-        return self.next_node
-    def setData(self,data):
-        self.data=data
-    def setField(self,field,value):
-        self.data[field]=value
-    def setNext(self,next_node):
-        self.next_node=next_node
-
-#actual schedule
-schedule = EventNode(None,None,None,None,None)
+schedule=[{"stuff":"abd"},{"testing":"hi"}]
 
 #add event to schedule
 def addEvent(schedule,event,description,start,end):
-    while schedule.getNext() != None and schedule.getNext().getField("start") < start:
-        schedule=schedule.getNext()
-    event = EventNode(event,description,start,end,schedule.getNext())
-    schedule.setNext(event)
+    ind=0
+    while ind<len(schedule) and schedule[ind]["start"]<start:
+        ind+=1;
+    schedule.insert(ind,{"event":event,"description":description,"start":start,"end":end})
 
-#print schedule
-def printSchedule(schedule):
-    while schedule != None:
-        print schedule.getData()
-        schedule = schedule.getNext()
+def getSchedule():
+    global schedule
+    return schedule

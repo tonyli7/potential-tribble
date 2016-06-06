@@ -76,6 +76,7 @@ def admin():
             file = request.files['file']
             if file and allowed_file(file.filename):
                 filename = file.filename#might need werkzeug.secure_filename()
+                print os.path.join(app.config['UPLOAD_FOLDER'],filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
                 return redirect(url_for('uploaded_file',filename=filename))     
     return render_template("admin.html",entries=utils.getCollection("users"),collections=mongo.getCollections("modelun"))
@@ -100,6 +101,10 @@ def allowed_file(filename):
 @app.route(app.config['UPLOAD_FOLDER']+'/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
+
+@app.route("/schedule")
+def schedule():
+    return render_template("schedule.html",schedule=utils.getSchedule())
 
 if __name__=="__main__":
     app.debug = True
