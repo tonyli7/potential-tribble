@@ -111,16 +111,9 @@
   </div>
 </form>
 <form method="POST">
-  <h3>User Lists</h3>
+  <h3>Admin List</h3>
   <table class="table">
-    <tr>
-      {% for attribute in entries[0] %}
-      {% if attribute != "password" and attribute != "_id" %}
-      <th>{{attribute}}</th>
-      {% endif %}
-      {% endfor %}
-    </tr>
-    {% for entry in entries %}
+    {% for entry in admins %}
     <tr>
       {% for attribute,value in entry.iteritems() %}
       {% if attribute != "password" and attribute != "_id" %}
@@ -134,6 +127,57 @@
       </td>
       {% endif %}
       {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+  <h3>Faculty Advisor List</h3>
+  <table class="table">
+    <tr>
+      {% for attribute in advisor_headers %}
+      {% if attribute != "password" and attribute != "_id" %}
+      <th>{{attribute}}</th>
+      {% endif %}
+      {% endfor %}
+    </tr>
+    {% for entry in advisors %}
+    <tr>
+      {% for attribute,value in entry.iteritems() %}
+      {% if attribute != "password" and attribute != "_id" %}
+      <td>{{ value }}</td>
+      <td>
+	<div class="checkbox">
+	  <label>
+	    <input name="delete-entry" type="checkbox" value="{{entry._id}}"> Delete
+	  </label>
+	</div>
+      </td>
+      {% endif %}
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+  <h3>Delegate List</h3>
+  <table class="table">
+    <tr>
+      {% for attribute in delegate_headers %}
+      {% if attribute != "password" and attribute != "_id" %}
+      <th>{{attribute}}</th>
+      {% endif %}
+      {% endfor %}
+    </tr>
+    {% for entry in delegates %}
+    <tr>
+      {% for attribute in delegate_headers %}
+      <td>{{entry[attribute]}}
+      </td>
+      {% endfor %}
+      <td>
+	<div class="checkbox">
+	  <label>
+	    <input name="delete-entry" type="checkbox" value="{{entry._id}}"> Delete
+	  </label>
+	</div>
+      </td>
     </tr>
     {% endfor %}
   </table>
@@ -162,19 +206,17 @@
 <form method="POST">
   <h3>Signup Fields for Delegates</h3>
   {% for field in delegate_fields %}
-  {{field.field}}
   <div class="checkbox">
     <label>
-      <input name="delete-field" type="checkbox" value="{{field._id}}"> Delete
+      <input name="delete-field" type="checkbox" value="{{field._id}}"> Delete {{field.field}}
     </label>
   </div>
   {% endfor %}
   <h3>Signup Fields for Faculty Advisors</h3>
   {% for field in advisor_fields %}
-  {{field.field}}
   <div class="checkbox">
     <label>
-      <input name="delete-field" type="checkbox" value="{{field._id}}"> Delete
+      <input name="delete-field" type="checkbox" value="{{field._id}}"> Delete {{field.field}}
     </label>
   </div>
   {% endfor %}

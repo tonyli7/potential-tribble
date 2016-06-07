@@ -17,9 +17,11 @@ def pwordAuth(uname, pword, atype):
     user = mongo.getEntry("modelun","users",{"email":uname,"type":atype})
     return user is not None and sha512_crypt.verify(pword,user["password"])
 
-## sign up to attend a conference
-def attendConference(required_fields):
-    user = mongo.getEntry("modelun","attendees",required_fields)
+## sign up to attend a conference as advisor or delegate
+def attendConference(role,required_fields):
+    print role
+    print required_fields
+    user = mongo.addEntry("modelun",role,required_fields)
 
 ## sign up as an interested party
 def mailinglist(email):
@@ -144,8 +146,7 @@ def deleteFields(item_ids):
 
 #add fields
 def addField(usertype,fieldname):
-    print "HI"
     query = {"field":fieldname}
-    if mongo.getEntry("fields",usertype,query).count == 0:
+    if mongo.getEntry("fields",usertype,query).count() == 0:
         mongo.addEntry("fields",usertype,query)
     

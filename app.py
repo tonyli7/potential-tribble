@@ -100,8 +100,13 @@ def admin():
         #add fields
         if 'add-field' in request.form:
             utils.addField(request.form['user-type'],request.form['field-name'])
-            
-    return render_template("admin.html",entries=utils.getCollection("users"),collections=mongo.getCollections("modelun"),schedule=utils.getEvents(),advisor_fields=mongo.getEntry("fields","advisor",{}),delegate_fields=mongo.getEntry("fields","delegate",{}))
+    advisor_fields = mongo.getEntry("fields","advisor",{})
+    advisor_header = [f['field'] for f in advisor_fields]
+    advisor_fields.rewind()
+    delegate_fields= mongo.getEntry("fields","delegate",{})
+    delegate_header= [f['field'] for f in delegate_fields]
+    delegate_fields.rewind()
+    return render_template("admin.html",admins=utils.getCollection("users"),delegate_headers=delegate_header,delegates=utils.getCollection("delegate"),advisor_headers=advisor_header,advisors=utils.getCollection("advisor"),collections=mongo.getCollections("modelun"),schedule=utils.getEvents(),advisor_fields=advisor_fields,delegate_fields=delegate_fields)
 
 @app.route("/about")
 def about():
@@ -124,12 +129,15 @@ def allowed_file(filename):
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
-@app.route("/schedule",methods=["GET","POST"])
-def schedule():
+@app.route("/attend_conference",methods=['GET','POST'])
+def attend():
     if request.method == "POST":
-         delete = request.form.getlist('delete-event')
-         utils.deleteEvents(delete)
-    return render_template("schedule.html",schedule=utils.getEvents())
+        attendee={}
+        for attribute in request.form:
+            if attribute != "submit":
+                attendee[attribute]=request.form[attribute]
+        utils.attendConference(request.form["submit"],attendee)
+    return render_template("attend_conference.html",advisor_fields=mongo.getEntry("fields","advisor",{}),delegate_fields=mongo.getEntry("fields","delegate",{}))
 
 if __name__=="__main__":
     app.debug = True
