@@ -234,16 +234,16 @@
     </div>
 </form>
 <form method="POST">
-  <h3>Signup Fields for Delegates</h3>
-  {% for field in delegate_fields %}
+  <h3>Signup Fields for Faculty Advisors</h3>
+  {% for field in advisor_fields %}
   <div class="checkbox">
     <label>
       <input name="delete-field" type="checkbox" value="{{field._id}}"> Delete {{field.field}}
     </label>
   </div>
   {% endfor %}
-  <h3>Signup Fields for Faculty Advisors</h3>
-  {% for field in advisor_fields %}
+  <h3>Signup Fields for Delegates</h3>
+  {% for field in delegate_fields %}
   <div class="checkbox">
     <label>
       <input name="delete-field" type="checkbox" value="{{field._id}}"> Delete {{field.field}}
