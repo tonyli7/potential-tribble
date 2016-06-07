@@ -111,6 +111,38 @@
   </div>
 </form>
 <form method="POST">
+  <h3>Edit the Schedule</h3>
+  {% for item in schedule %}
+  <div class="scheduled-event">
+    <strong>Starts:</strong> {{ item.start }}<br>
+    <strong>Ends:</strong> {{ item.end }}
+    <br>
+    <strong>Event:</strong> {{ item.event }}
+    <br>
+    {{ item.description }}
+    <br>
+    <div class="checkbox">
+      <label>
+	<input name="delete-event" type="checkbox" value="{{item._id}}"> Delete
+      </label>
+    </div>
+  </div>
+{% endfor %}
+  <input type="submit" name="delete-events" value="Delete Selected" class="btn btn-default">
+</form>
+<form method="POST">
+  <h3>Add an Admin</h3>
+  <div class="col-sm-12 form-group">
+    <label>Email</label>
+    <input type="email" name="admin-email" class="form-control">
+  </div>
+  <div class="col-sm-12 form-group">
+    <label>Password</label>
+    <input type="password" name="admin-pass" class="form-control">
+  </div>
+  <input type="submit" name="add-admin" class="btn btn-default">
+</form>
+<form method="POST">
   <h3>Admin List</h3>
   <table class="table">
     {% for entry in admins %}
@@ -118,6 +150,8 @@
       {% for attribute,value in entry.iteritems() %}
       {% if attribute != "password" and attribute != "_id" %}
       <td>{{ value }}</td>
+      {% endif %}
+      {% endfor %}
       <td>
 	<div class="checkbox">
 	  <label>
@@ -125,8 +159,6 @@
 	  </label>
 	</div>
       </td>
-      {% endif %}
-      {% endfor %}
     </tr>
     {% endfor %}
   </table>
@@ -144,6 +176,8 @@
       {% for attribute,value in entry.iteritems() %}
       {% if attribute != "password" and attribute != "_id" %}
       <td>{{ value }}</td>
+      {% endif %}
+      {% endfor %}
       <td>
 	<div class="checkbox">
 	  <label>
@@ -151,8 +185,6 @@
 	  </label>
 	</div>
       </td>
-      {% endif %}
-      {% endfor %}
     </tr>
     {% endfor %}
   </table>
@@ -184,24 +216,22 @@
   <input type="submit" name="delete-entries" value="Delete Selected" class="btn btn-default">
 </form>
 <form method="POST">
-  <h3>Edit the Schedule</h3>
-  {% for item in schedule %}
-  <div class="scheduled-event">
-    <strong>Starts:</strong> {{ item.start }}<br>
-    <strong>Ends:</strong> {{ item.end }}
-    <br>
-    <strong>Event:</strong> {{ item.event }}
-    <br>
-    {{ item.description }}
-    <br>
-    <div class="checkbox">
-      <label>
-	<input name="delete-event" type="checkbox" value="{{item._id}}"> Delete
-      </label>
+  <h3>Add a Signup Field</h3>
+  <div class="input-group">
+  <label class="radio-inline">
+    <input type="radio" name="user-type" value="delegate">
+    Delegate Field
+  </label>
+  <label class="radio-inline">
+    <input type="radio" name="user-type" value="advisor">
+    Advisor Field
+  </label><br>
+    <div class="col-sm-6 form-group">
+      <label>Field Name</label>
+      <input type="text" name="field-name" class="form-control">
+    </div><br>
+    <input type="submit" name="add-field" value="Add Field" class="btn btn-default">
     </div>
-  </div>
-{% endfor %}
-  <input type="submit" name="delete-events" value="Delete Selected" class="btn btn-default">
 </form>
 <form method="POST">
   <h3>Signup Fields for Delegates</h3>
@@ -221,18 +251,6 @@
   </div>
   {% endfor %}
   <input type="submit" name="delete-fields" value="Delete Selected" class="btn btn-default">
-</form>
-<form method="POST">
-  <label class="radio-inline">
-    <input type="radio" name="user-type" value="delegate">
-    Delegate Field
-  </label>
-  <label class="radio-inline">
-    <input type="radio" name="user-type" value="advisor">
-    Advisor Field
-  </label>
-  <input type="text" name="field-name">
-  <input type="submit" name="add-field" value="Add Field" class="btn btn-default">
 </form>
 {% endblock%}
 

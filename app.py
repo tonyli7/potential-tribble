@@ -100,6 +100,11 @@ def admin():
         #add fields
         if 'add-field' in request.form:
             utils.addField(request.form['user-type'],request.form['field-name'])
+
+        #add admin
+        if 'add-admin' in request.form:
+            utils.createUser(request.form["admin-email"],request.form["admin-pass"],"admin")
+            
     advisor_fields = mongo.getEntry("fields","advisor",{})
     advisor_header = [f['field'] for f in advisor_fields]
     advisor_fields.rewind()

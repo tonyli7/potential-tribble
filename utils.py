@@ -137,6 +137,8 @@ def deleteEvents(item_ids):
 def deleteEntries(item_ids):
     object_ids = [ObjectId(item_id) for item_id in item_ids]    
     mongo.deleteEntry("modelun","users",{"_id": {"$in": object_ids}})
+    mongo.deleteEntry("modelun","advisor",{"_id": {"$in": object_ids}})
+    mongo.deleteEntry("modelun","delegate",{"_id": {"$in": object_ids}})
 
 #delete fields
 def deleteFields(item_ids):
