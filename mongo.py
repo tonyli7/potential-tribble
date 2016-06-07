@@ -40,6 +40,7 @@ def editEntry(database,collection,query,revisedEntry):
     entry = collection.find_one_and_update(query,{"$set":revisedEntry})
     client.close()
 
+#delete the specified entry
 def deleteEntry(database,collection,query):
     client = MongoClient()
     collection = client[database][collection]

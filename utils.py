@@ -29,7 +29,7 @@ def mailinglist(email):
     if mongo.getEntry("modelun","interested",interested).count() == 0:
         mongo.addEntry("modelun","interested",interested)
 
-## print database
+## get database collection
 def getCollection(collection):
     return mongo.getEntry("modelun",collection,{})
 
@@ -44,7 +44,6 @@ def emailUser(username, password, receiver, subject, message, attachments):
     smtpserver.login(username, password)
     msg = email.MIMEMultipart.MIMEMultipart()
     msg["From"]=username
-    #when no value is assigned to msg['To'], those named as receivers in sendmail are bcc'ed
     msg["Subject"]=subject
     msg.attach(email.MIMEText.MIMEText(message,"plain"))
     for attachment in attachments:
@@ -128,12 +127,12 @@ def addEvent(event,description,start,end):
 def getEvents():
     return mongo.getEntry("conference","schedule",{}).sort("start")
 
-#delete events in array
+#delete events
 def deleteEvents(item_ids):
     object_ids = [ObjectId(item_id) for item_id in item_ids]    
     mongo.deleteEntry("conference","schedule",{"_id": {"$in": object_ids}})
 
-#delete entries in array
+#delete specified users
 def deleteEntries(item_ids):
     object_ids = [ObjectId(item_id) for item_id in item_ids]    
     mongo.deleteEntry("modelun","users",{"_id": {"$in": object_ids}})

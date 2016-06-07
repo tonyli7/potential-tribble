@@ -5,6 +5,9 @@ from flask import Flask, session, render_template, url_for, request, redirect, s
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = settings.UPLOAD_FOLDER
 
+def setup(app):
+    utils.createUser("admin@stuymunc.com","proscientia","admin")
+
 @app.route("/")
 @app.route("/home")
 def home():
@@ -81,7 +84,7 @@ def admin():
         #edit schedule
         if 'edit-schedule' in request.form:
             utils.addEvent(request.form['event'],request.form['description'],request.form['start'],request.form['end'])
-
+            
         #delete entry
         if 'delete-entries' in request.form:
             delete = request.form.getlist('delete-entry')
@@ -144,10 +147,14 @@ def attend():
         utils.attendConference(request.form["submit"],attendee)
     return render_template("attend_conference.html",advisor_fields=mongo.getEntry("fields","advisor",{}),delegate_fields=mongo.getEntry("fields","delegate",{}))
 
+<<<<<<< HEAD
 @app.route("/files")
 def downloads():
     files = os.listdir("./static/uploads")
     return render_template("files.html", files=files)
+
+
+setup(app)
 
 if __name__=="__main__":
     app.debug = True
