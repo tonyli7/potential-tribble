@@ -10,9 +10,7 @@ from bson.objectid import ObjectId
 def createUser(uname, pword, atype):
     user = mongo.getEntry("modelun","users",{"email":uname})
     if user.count() == 0:
-        mongo.addEntry("modelun","users",{"email":uname,
-                                          "password":sha512_crypt.encrypt(pword),
-                                          "type":atype})
+        mongo.addEntry("modelun","users",{"email":uname,"password":sha512_crypt.encrypt(pword),"atype":atype})
 
 ## checks if the username/password/accounttype combination is correct
 def pwordAuth(uname, pword, atype):
@@ -20,8 +18,8 @@ def pwordAuth(uname, pword, atype):
     return user is not None and sha512_crypt.verify(pword,user["password"])
 
 ## sign up to attend a conference
-def attendConference(conferenceid):
-    user = mongo.getEntry("modelun","attendees",{"email":email})
+def attendConference(required_fields):
+    user = mongo.getEntry("modelun","attendees",required_fields)
 
 ## sign up as an interested party
 def mailinglist(email):
@@ -137,3 +135,17 @@ def deleteEvents(item_ids):
 def deleteEntries(item_ids):
     object_ids = [ObjectId(item_id) for item_id in item_ids]    
     mongo.deleteEntry("modelun","users",{"_id": {"$in": object_ids}})
+
+#delete fields
+def deleteFields(item_ids):
+    object_ids = [ObjectId(item_id) for item_id in item_ids]
+    mongo.deleteEntry("fields","delegate",{"_id": {"$in": object_ids}})
+    mongo.deleteEntry("fields","advisor",{"_id": {"$in": object_ids}})
+
+#add fields
+def addField(usertype,fieldname):
+    print "HI"
+    query = {"field":fieldname}
+    if mongo.getEntry("fields",usertype,query).count == 0:
+        mongo.addEntry("fields",usertype,query)
+    

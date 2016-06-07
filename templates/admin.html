@@ -157,7 +157,40 @@
     </div>
   </div>
 {% endfor %}
-  <input type="submit" name="delete-events" value="Delete Selected">
+  <input type="submit" name="delete-events" value="Delete Selected" class="btn btn-default">
+</form>
+<form method="POST">
+  <h3>Signup Fields for Delegates</h3>
+  {% for field in delegate_fields %}
+  {{field.field}}
+  <div class="checkbox">
+    <label>
+      <input name="delete-field" type="checkbox" value="{{field._id}}"> Delete
+    </label>
+  </div>
+  {% endfor %}
+  <h3>Signup Fields for Faculty Advisors</h3>
+  {% for field in advisor_fields %}
+  {{field.field}}
+  <div class="checkbox">
+    <label>
+      <input name="delete-field" type="checkbox" value="{{field._id}}"> Delete
+    </label>
+  </div>
+  {% endfor %}
+  <input type="submit" name="delete-fields" value="Delete Selected" class="btn btn-default">
+</form>
+<form method="POST">
+  <label class="radio-inline">
+    <input type="radio" name="user-type" value="delegate">
+    Delegate Field
+  </label>
+  <label class="radio-inline">
+    <input type="radio" name="user-type" value="advisor">
+    Advisor Field
+  </label>
+  <input type="text" name="field-name">
+  <input type="submit" name="add-field" value="Add Field" class="btn btn-default">
 </form>
 {% endblock%}
 

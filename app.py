@@ -92,7 +92,16 @@ def admin():
             delete = request.form.getlist('delete-event')
             utils.deleteEvents(delete)
 
-    return render_template("admin.html",entries=utils.getCollection("users"),collections=mongo.getCollections("modelun"),schedule=utils.getEvents())
+        #edit fields
+        if 'delete-fields' in request.form:
+            delete = request.form.getlist('delete-field')
+            utils.deleteFields(delete)
+
+        #add fields
+        if 'add-field' in request.form:
+            utils.addField(request.form['user-type'],request.form['field-name'])
+            
+    return render_template("admin.html",entries=utils.getCollection("users"),collections=mongo.getCollections("modelun"),schedule=utils.getEvents(),advisor_fields=mongo.getEntry("fields","advisor",{}),delegate_fields=mongo.getEntry("fields","delegate",{}))
 
 @app.route("/about")
 def about():
