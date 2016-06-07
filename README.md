@@ -7,8 +7,9 @@ Software Development Period 3
 ------------------
 #Deployment
 
-apt-get install pip mongodb-server gunicorn 
 
-pip install -r requirements.txt
-
-gunicorn app:app
+Install necessary libraries. This may require super user permissions 
+    apt-get install pip mongodb-server
+    pip install -r requirements.txt
+Run the flask application.
+    python app.py
