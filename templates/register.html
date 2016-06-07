@@ -3,8 +3,35 @@
 
 {% extends "base.html" %}
 {% block body %}
-  <div class="container">
-    <h2>Register</h2>
+
+
+
+
+<div class="container">
+
+
+  <h2>Advisor Form</h2>
+  <form method="POST">
+    {% for field in advisor_fields %}
+    <div class="form-group">
+      <label class="control-label col-sm-2">{{field.field}}</label>
+      <input type="text" name="{{field.field}}" class="form-control" id="email" placeholder="Enter email">
+    </div>
+    {% endfor %}
+    <input type="submit" name="submit" value="advisor" class="btn default-btn">
+  </form>
+  <h2>Delegate Form</h2>
+  <form method="POST">
+    {% for field in delegate_fields %}
+    <div class="form-group">
+      <label class="control-label col-sm-2">{{field.field}}</label>
+      <input type="text" name="{{field.field}}" class="form-control" id="email" placeholder="Enter email">
+    </div>
+    {% endfor %}
+    <input type="submit" name="submit" value="delegate" class="btn default-btn">
+  </form>
+
+  <h2>Register</h2>
     <form class="form-horizontal" role="form" method="POST">
        <div class="form-group">
 	<label class="control-label col-sm-2" for="email">Email:</label>

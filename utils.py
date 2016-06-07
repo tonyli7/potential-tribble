@@ -19,8 +19,6 @@ def pwordAuth(uname, pword, atype):
 
 ## sign up to attend a conference as advisor or delegate
 def attendConference(role,required_fields):
-    print role
-    print required_fields
     user = mongo.addEntry("modelun",role,required_fields)
 
 ## sign up as an interested party

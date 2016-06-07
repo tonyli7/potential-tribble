@@ -41,18 +41,14 @@ def logout():
 @app.route("/register", methods=['GET','POST'])
 def register():
     if request.method == 'POST':
-        if request.form['email'] and request.form['f_name'] and request.form['l_name'] and request.form['pwd']:
-            email = request.form['email']
-            f_name = request.form['f_name']
-            l_name = request.form['l_name']
-            pwd = request.form['pwd']
-
-            utils.createUser(email, pwd, "admin")
-            return render_template("register.html", success="You've successfully registered!")
-        else:
-            return render_template("register.html", success="You've left some fields empty")
+        attendee={}
+        for attribute in request.form:
+            if attribute != "submit":
+                attendee[attribute]=request.form[attribute]
+        utils.attendConference(request.form["submit"],attendee)
+        return render_template("register.html", success="You've successfully registered!",advisor_fields=mongo.getEntry("fields","advisor",{}),delegate_fields=mongo.getEntry("fields","delegate",{}))
     else:
-        return render_template("register.html")
+        return render_template("register.html",advisor_fields=mongo.getEntry("fields","advisor",{}),delegate_fields=mongo.getEntry("fields","delegate",{}))
 
     
 @app.route("/admin", methods=['GET','POST'])
