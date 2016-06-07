@@ -4,6 +4,7 @@ from email.mime.application import MIMEApplication
 from email.parser import HeaderParser
 from apscheduler.scheduler import Scheduler
 from bs4 import BeautifulSoup
+from bson.objectid import ObjectId
 
 ## creates new user account
 def createUser(uname, pword, atype):
@@ -116,16 +117,19 @@ def updateAbout(text):
     about = open("templates/about.html","w")
     about.write(new)
     about.close()
-
-schedule=[{"stuff":"abd"},{"testing":"hi"}]
-
+    
 #add event to schedule
-def addEvent(schedule,event,description,start,end):
-    ind=0
-    while ind<len(schedule) and schedule[ind]["start"]<start:
-        ind+=1;
-    schedule.insert(ind,{"event":event,"description":description,"start":start,"end":end})
+def addEvent(event,description,start,end):
+    startDate = datetime.datetime.strptime(start,"%Y-%m-%dT%H:%M")
+    endDate = datetime.datetime.strptime(end,"%Y-%m-%dT%H:%M")
+    mongo.addEntry("conference","schedule",{"event":event,"description":description,"start":startDate,"end":endDate})
 
-def getSchedule():
-    global schedule
-    return schedule
+#get schedule
+def getEvents():
+    return mongo.getEntry("conference","schedule",{}).sort("start")
+
+#delete events in array
+def deleteEvents(item_ids):
+    object_ids = [ObjectId(item_id) for item_id in item_ids]    
+    mongo.deleteEntry("conference","schedule",{"_id": {"$in": object_ids}})
+        

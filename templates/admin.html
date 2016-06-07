@@ -5,6 +5,7 @@
 {% block body%}
 
 <h1 class="title">Administrator's Dashboard</h1>
+
 <form method="POST" enctype="multipart/form-data">
   <div class="input-group">
     <h3>Schedule a Message</h3>
@@ -85,7 +86,30 @@
     </div>
   </div>
 </form>
-
+<form method="POST" enctype="multipart/form-data">
+  <div class="input-group">
+    <h3>Upload a File to Gallery</h3>
+    <div class="col-sm-12 form-group">
+      <label>Event</label>
+      <input type="text" name="event" class="form-control">
+    </div>
+    <div class="col-sm-6 form-group">
+      <label>Start Time</label>
+      <input type="datetime-local" name="start" class="form-control">
+    </div>
+    <div class="col-sm-6 form-group">
+      <label>End Time</label>
+      <input type="datetime-local" name="end" class="form-control">
+    </div>
+    <div class="col-sm-12 form-group">
+      <label>Event Description</label>
+      <textarea name="description" rows="3" class="form-control"></textarea>
+    </div>
+    <div class="col-sm-12 form-group">
+      <input name="edit-schedule" class="btn btn-default" type="submit" value="submit">
+    </div>
+  </div>
+</form>
 
 <table class="table">
   <tr>

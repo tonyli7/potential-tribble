@@ -1,10 +1,6 @@
 from pymongo import MongoClient
 
-#authentication
-def authenticateMaster():
-    pass
-
-#
+#gets all collections in a database
 def getCollections(database):
     client = MongoClient()
     names = client[database].collection_names()
@@ -44,3 +40,9 @@ def editEntry(database,collection,query,revisedEntry):
     entry = collection.find_one_and_update(query,{"$set":revisedEntry})
     client.close()
 
+def deleteEntry(database,collection,query):
+    client = MongoClient()
+    collection = client[database][collection]
+    print query
+    entry = collection.delete_many(query)
+    client.close()

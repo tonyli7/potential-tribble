@@ -1,4 +1,5 @@
 import utils, mongo, os, settings
+from werkzeug.utils import secure_filename
 from flask import Flask, session, render_template, url_for, request, redirect, send_from_directory
 
 app = Flask(__name__)
@@ -12,7 +13,6 @@ def home():
 @app.route("/login", methods = ['GET','POST'])
 def login():
     if session.keys().count("loggedin") == 0:
-
         if request.method == 'POST':
 
             if request.form['email'] and request.form['pwd']:
@@ -60,7 +60,6 @@ def admin():
                 for entry in entries:
                     if "email" in entry:
                         rcpts+=entry["email"]+","
-            print rcpts
             file_bins=[]
             if request.files['attachment']:
                 files = request.files.getlist('attachment')
@@ -75,10 +74,14 @@ def admin():
         if 'upload-file' in request.form:
             file = request.files['file']
             if file and allowed_file(file.filename):
-                filename = file.filename#might need werkzeug.secure_filename()
-                print os.path.join(app.config['UPLOAD_FOLDER'],filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
-                return redirect(url_for('uploaded_file',filename=filename))     
+                filename = secure_filename(file.filename)
+                file.save("."+os.path.join(app.config['UPLOAD_FOLDER'],filename))
+                return redirect(url_for('uploaded_file',filename=filename))
+
+        #edit schedule
+        if 'edit-schedule' in request.form:
+            utils.addEvent(request.form['event'],request.form['description'],request.form['start'],request.form['end'])
+            
     return render_template("admin.html",entries=utils.getCollection("users"),collections=mongo.getCollections("modelun"))
 
 @app.route("/about")
@@ -102,9 +105,12 @@ def allowed_file(filename):
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
-@app.route("/schedule")
+@app.route("/schedule",methods=["GET","POST"])
 def schedule():
-    return render_template("schedule.html",schedule=utils.getSchedule())
+    if request.method == "POST":
+         delete = request.form.getlist('delete-event')
+         utils.deleteEvents(delete)
+    return render_template("schedule.html",schedule=utils.getEvents())
 
 if __name__=="__main__":
     app.debug = True

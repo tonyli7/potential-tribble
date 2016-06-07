@@ -4,16 +4,24 @@
 
 {% extends "base.html"%}
 {% block body%}
-
+<form method="POST">
 {% for item in schedule %}
 <div class="scheduled-event">
-  {{ item.start }} - {{ item.end }}
+  <strong>Starts:</strong> {{ item.start }}<br>
+  <strong>Ends:</strong> {{ item.end }}
   <br>
-  {{ item.event }}
+  <strong>Event:</strong> {{ item.event }}
   <br>
   {{ item.description }}
+  <br>
+  <div class="checkbox">
+     <label>
+      <input name="delete-event" type="checkbox" value="{{item._id}}"> Delete
+    </label>
+  </div>
 </div>
 {% endfor %}
-
+<input type="submit" name="edit-schedule" value="submit">
+</form>
 {% endblock%}
 
