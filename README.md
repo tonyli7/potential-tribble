@@ -9,7 +9,11 @@ Software Development Period 3
 
 
 Install necessary libraries. This may require super user permissions 
+
     apt-get install pip mongodb-server
+
     pip install -r requirements.txt
+
 Run the flask application.
+
     python app.py
