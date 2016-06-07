@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+
+{% extends "base.html" %}
+{% block body %}
+
+<h2>Advisor Form</h2>
+<form method="POST">
+  {% for field in advisor_fields %}
+  {{field.field}}<input type="text" name="{{field.field}}">
+  {% endfor %}
+  <input type="submit" name="submit" value="advisor">
+</form>
+<h2>Delegate Form</h2>
+<form method="POST">
+  {% for field in delegate_fields %}
+  {{field.field}}<input type="text" name="{{field.field}}">
+  {% endfor %}
+  <input type="submit" name="submit" value="delegate">
+</form>
+
+
+{% endblock %}

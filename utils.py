@@ -4,23 +4,34 @@ from email.mime.application import MIMEApplication
 from email.parser import HeaderParser
 from apscheduler.scheduler import Scheduler
 from bs4 import BeautifulSoup
+from bson.objectid import ObjectId
 
-##creates new user account
+## creates new user account
 def createUser(uname, pword, atype):
-    user = mongo.getEntry("modelun","users",{"username":uname})
-    if user is None:
-        mongo.addEntry("modelun","users",{"username":uname,
-                                          "password":sha512_crypt.encrypt(pword),
-                                          "type":atype})
+    user = mongo.getEntry("modelun","users",{"email":uname})
+    if user.count() == 0:
+        mongo.addEntry("modelun","users",{"email":uname,"password":sha512_crypt.encrypt(pword),"atype":atype})
 
 ## checks if the username/password/accounttype combination is correct
 def pwordAuth(uname, pword, atype):
-    user = mongo.getEntry("modelun","users",{"username":uname,"type":atype})
-    return user is not None and sha512_crypt.verify(pword,user["password"])
+    user = mongo.getEntry("modelun","users",{"email":uname})
+    return user.count() > 0 and sha512_crypt.verify(pword,user[0]["password"])
 
-## sign up to attend a conference
-def attendConference(conferenceid):
-    pass
+## sign up to attend a conference as advisor or delegate
+def attendConference(role,required_fields):
+    print role
+    print required_fields
+    user = mongo.addEntry("modelun",role,required_fields)
+
+## sign up as an interested party
+def mailinglist(email):
+    interested = {"email":email}
+    if mongo.getEntry("modelun","interested",interested).count() == 0:
+        mongo.addEntry("modelun","interested",interested)
+
+## get database collection
+def getCollection(collection):
+    return mongo.getEntry("modelun",collection,{})
 
 ## email blasts
 ## requires gmail account, as well as the user to allow less secure apps
@@ -33,18 +44,19 @@ def emailUser(username, password, receiver, subject, message, attachments):
     smtpserver.login(username, password)
     msg = email.MIMEMultipart.MIMEMultipart()
     msg["From"]=username
-    #when no value is assigned to msg['To'], those named as receivers in sendmail are bcc'ed
     msg["Subject"]=subject
     msg.attach(email.MIMEText.MIMEText(message,"plain"))
-    if attachments:
-        msg.attach(MIMEApplication(attachments))
+    for attachment in attachments:
+        att = MIMEApplication(attachment[1])
+        att.add_header("Content-Disposition","attachment",filename=attachment[0])
+        msg.attach(att)
     smtpserver.sendmail(username, receiver, msg.as_string())
     smtpserver.quit()
 
 ## allows the admin to specify a time for a notification
 ## email gets sent out to all members of a specified collection
 def scheduleNotification(username, password, receivers, subject, message, attachments, timestring):
-    logging.basicConfig() #for some reason necessary for apscheduler
+    logging.basicConfig()
     scheduler = Scheduler()
     scheduler.start()
     sentOn = datetime.datetime.strptime(timestring,"%Y-%m-%dT%H:%M")
@@ -82,6 +94,7 @@ def respondToEmails(username,password,response_subject,automated_response):
                 smtpserver.quit()
     conn.close()
 
+#sets up a listener to connect to the specified email every five minutes and respond to any unread mail with the automated response
 def scheduleEmailListener(username,password,response_subject,automated_response):
     logging.basicConfig()
     scheduler=Scheduler()
@@ -102,7 +115,47 @@ def updateAbout(text):
     print new
     about.close()
     
+
     #about = open("templates/about.html","w")
     #about.write(new)
     #about.close()
 
+    about = open("templates/about.html","w")
+    about.write(new)
+    about.close()
+    
+#add event to schedule
+def addEvent(event,description,start,end):
+    startDate = datetime.datetime.strptime(start,"%Y-%m-%dT%H:%M")
+    endDate = datetime.datetime.strptime(end,"%Y-%m-%dT%H:%M")
+    mongo.addEntry("conference","schedule",{"event":event,"description":description,"start":startDate,"end":endDate})
+
+#get schedule
+def getEvents():
+    return mongo.getEntry("conference","schedule",{}).sort("start")
+
+
+#delete events
+def deleteEvents(item_ids):
+    object_ids = [ObjectId(item_id) for item_id in item_ids]    
+    mongo.deleteEntry("conference","schedule",{"_id": {"$in": object_ids}})
+
+#delete specified users
+def deleteEntries(item_ids):
+    object_ids = [ObjectId(item_id) for item_id in item_ids]    
+    mongo.deleteEntry("modelun","users",{"_id": {"$in": object_ids}})
+    mongo.deleteEntry("modelun","advisor",{"_id": {"$in": object_ids}})
+    mongo.deleteEntry("modelun","delegate",{"_id": {"$in": object_ids}})
+
+#delete fields
+def deleteFields(item_ids):
+    object_ids = [ObjectId(item_id) for item_id in item_ids]
+    mongo.deleteEntry("fields","delegate",{"_id": {"$in": object_ids}})
+    mongo.deleteEntry("fields","advisor",{"_id": {"$in": object_ids}})
+
+#add fields
+def addField(usertype,fieldname):
+    query = {"field":fieldname}
+    if mongo.getEntry("fields",usertype,query).count() == 0:
+        mongo.addEntry("fields",usertype,query)
+    

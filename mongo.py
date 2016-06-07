@@ -1,8 +1,11 @@
 from pymongo import MongoClient
 
-#authentication
-def authenticateMaster():
-    pass
+#gets all collections in a database
+def getCollections(database):
+    client = MongoClient()
+    names = client[database].collection_names()
+    client.close()
+    return names
 
 #adds an entry to the specified database and collection
 def addEntry(database,collection,entry):
@@ -24,7 +27,7 @@ def listEntry(database,collection):
 def getEntry(database,collection,query):
     client = MongoClient()
     collection = client[database][collection]
-    entry = collection.find_one(query)
+    entry = collection.find(query)
     client.close()
     return entry
 
@@ -37,3 +40,9 @@ def editEntry(database,collection,query,revisedEntry):
     entry = collection.find_one_and_update(query,{"$set":revisedEntry})
     client.close()
 
+#delete the specified entry
+def deleteEntry(database,collection,query):
+    client = MongoClient()
+    collection = client[database][collection]
+    entry = collection.delete_many(query)
+    client.close()
