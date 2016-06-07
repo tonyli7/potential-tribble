@@ -81,8 +81,18 @@ def admin():
         #edit schedule
         if 'edit-schedule' in request.form:
             utils.addEvent(request.form['event'],request.form['description'],request.form['start'],request.form['end'])
+
+        #delete entry
+        if 'delete-entries' in request.form:
+            delete = request.form.getlist('delete-entry')
+            utils.deleteEntries(delete)
             
-    return render_template("admin.html",entries=utils.getCollection("users"),collections=mongo.getCollections("modelun"))
+        #edit schedule
+        if 'delete-events' in request.form:
+            delete = request.form.getlist('delete-event')
+            utils.deleteEvents(delete)
+
+    return render_template("admin.html",entries=utils.getCollection("users"),collections=mongo.getCollections("modelun"),schedule=utils.getEvents())
 
 @app.route("/about")
 def about():

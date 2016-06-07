@@ -88,7 +88,7 @@
 </form>
 <form method="POST" enctype="multipart/form-data">
   <div class="input-group">
-    <h3>Upload a File to Gallery</h3>
+    <h3>Add an Event to Schedule</h3>
     <div class="col-sm-12 form-group">
       <label>Event</label>
       <input type="text" name="event" class="form-control">
@@ -110,28 +110,55 @@
     </div>
   </div>
 </form>
-
-<table class="table">
-  <tr>
-    {% for attribute in entries[0] %}
-    {% if attribute != "password" and attribute != "_id" %}
-    <th>{{attribute}}</th>
-    {% endif %}
+<form method="POST">
+  <h3>User Lists</h3>
+  <table class="table">
+    <tr>
+      {% for attribute in entries[0] %}
+      {% if attribute != "password" and attribute != "_id" %}
+      <th>{{attribute}}</th>
+      {% endif %}
+      {% endfor %}
+    </tr>
+    {% for entry in entries %}
+    <tr>
+      {% for attribute,value in entry.iteritems() %}
+      {% if attribute != "password" and attribute != "_id" %}
+      <td>{{ value }}</td>
+      <td>
+	<div class="checkbox">
+	  <label>
+	    <input name="delete-entry" type="checkbox" value="{{entry._id}}"> Delete
+	  </label>
+	</div>
+      </td>
+      {% endif %}
+      {% endfor %}
+    </tr>
     {% endfor %}
-</th>
-{% for entry in entries %}
-<tr>
-  {% for attribute,value in entry.iteritems() %}
-  {% if attribute != "password" and attribute != "_id" %}
-  <td>{{ attribute }} {{ value }}</td>
-  {% endif %}
-  {% endfor %}
-</tr>
+  </table>
+  <input type="submit" name="delete-entries" value="Delete Selected" class="btn btn-default">
+</form>
+<form method="POST">
+  <h3>Edit the Schedule</h3>
+  {% for item in schedule %}
+  <div class="scheduled-event">
+    <strong>Starts:</strong> {{ item.start }}<br>
+    <strong>Ends:</strong> {{ item.end }}
+    <br>
+    <strong>Event:</strong> {{ item.event }}
+    <br>
+    {{ item.description }}
+    <br>
+    <div class="checkbox">
+      <label>
+	<input name="delete-event" type="checkbox" value="{{item._id}}"> Delete
+      </label>
+    </div>
+  </div>
 {% endfor %}
-</table>
-<script>
-$('.dropdown-toggle').dropdown()
-</script>
+  <input type="submit" name="delete-events" value="Delete Selected">
+</form>
 {% endblock%}
 
 

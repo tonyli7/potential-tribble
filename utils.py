@@ -132,4 +132,8 @@ def getEvents():
 def deleteEvents(item_ids):
     object_ids = [ObjectId(item_id) for item_id in item_ids]    
     mongo.deleteEntry("conference","schedule",{"_id": {"$in": object_ids}})
-        
+
+#delete entries in array
+def deleteEntries(item_ids):
+    object_ids = [ObjectId(item_id) for item_id in item_ids]    
+    mongo.deleteEntry("modelun","users",{"_id": {"$in": object_ids}})

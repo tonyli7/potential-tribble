@@ -43,6 +43,5 @@ def editEntry(database,collection,query,revisedEntry):
 def deleteEntry(database,collection,query):
     client = MongoClient()
     collection = client[database][collection]
-    print query
     entry = collection.delete_many(query)
     client.close()
