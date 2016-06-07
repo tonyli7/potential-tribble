@@ -153,7 +153,14 @@ def attend():
         utils.attendConference(request.form["submit"],attendee)
     return render_template("attend_conference.html",advisor_fields=mongo.getEntry("fields","advisor",{}),delegate_fields=mongo.getEntry("fields","delegate",{}))
 
+@app.route("/files")
+def downloads():
+    files = os.listdir("./static/uploads")
+    return render_template("files.html", files=files)
+
+
 setup(app)
+
 if __name__=="__main__":
     app.debug = True
     app.secret_key="Don't upload to github"
