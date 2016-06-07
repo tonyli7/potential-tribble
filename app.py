@@ -124,7 +124,9 @@ def about():
 @app.route("/edit", methods=['GET','POST'])
 def edit():
     if request.method == 'POST':
-        text = request.form['about']       
+
+        
+        text = request.form['about']
         utils.updateAbout(text)
         return render_template("edit.html")
     else:

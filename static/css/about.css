@@ -5,16 +5,35 @@ body{
    */
 }
 
-.title{
-    text-decoration: underline;
+h1.title{
     position: relative;
     left: 40%;
     width: 100%;
+    
+}
+
+hr.one{
+    display: block;
+    content: "";
+    height: 30px;
+    margin-top: -31px;
+    border-style: solid;
+    border-color: black;
+    border-width: 0 0 1px 0;
+    border-radius: 20px;
+}
+
+hr.two{
+    height: 30px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px 0 0 0;
+    border-radius: 20px;
 }
 
 p{
     color: white;
     word-wrap: break-word;
-    width: 50%;
-    background-color: black;
+    padding: 20px 20px;
+    background-color: rgba(0,0,0,.5);
 }

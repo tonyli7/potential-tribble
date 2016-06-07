@@ -105,12 +105,19 @@ def updateAbout(text):
     t = about.read()
     soup = BeautifulSoup(t, 'html.parser')
     lines = t.split('\n')[:2]
-    
+    print soup.prettify()
     soup.p.replaceWith("<p>"+text+"</p>")
+    print soup.get_text()
     #soup.p = "<p>"+text+"</p>"
     new = lines[0]+"\n"+lines[1]+"\n"+soup.get_text()
+    print new
     about.close()
     
+
+    #about = open("templates/about.html","w")
+    #about.write(new)
+    #about.close()
+
     about = open("templates/about.html","w")
     about.write(new)
     about.close()
@@ -124,6 +131,7 @@ def addEvent(event,description,start,end):
 #get schedule
 def getEvents():
     return mongo.getEntry("conference","schedule",{}).sort("start")
+
 
 #delete events
 def deleteEvents(item_ids):
