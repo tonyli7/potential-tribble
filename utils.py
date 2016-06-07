@@ -14,8 +14,8 @@ def createUser(uname, pword, atype):
 
 ## checks if the username/password/accounttype combination is correct
 def pwordAuth(uname, pword, atype):
-    user = mongo.getEntry("modelun","users",{"email":uname,"type":atype})
-    return user is not None and sha512_crypt.verify(pword,user["password"])
+    user = mongo.getEntry("modelun","users",{"email":uname})
+    return user.count() > 0 and sha512_crypt.verify(pword,user[0]["password"])
 
 ## sign up to attend a conference as advisor or delegate
 def attendConference(role,required_fields):

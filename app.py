@@ -7,15 +7,15 @@ app.config['UPLOAD_FOLDER'] = settings.UPLOAD_FOLDER
 
 def setup(app):
     utils.createUser("admin@stuymunc.com","proscientia","admin")
-
+    
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template("home.html")
+    return render_template("home.html",user=session.get("loggedin"))
 
 @app.route("/login", methods = ['GET','POST'])
-def login():
-    if session.keys().count("loggedin") == 0:
+def login(): 
+    if session.get("loggedin") == None:
         if request.method == 'POST':
 
             if request.form['email'] and request.form['pwd']:
@@ -24,8 +24,8 @@ def login():
                 pwd = request.form['pwd']
 
                 if utils.pwordAuth(email,pwd,"admin"):
-                    session["loggedin"] = email
-                    return render_template("home.html")
+                    session["loggedin"]=email
+                    return redirect(url_for("home"))
                 else:
                     return render_template("login.html", failure="email/password combination does not exist.")
         else:
@@ -33,6 +33,10 @@ def login():
     else:
         return redirect(url_for("home"))
 
+@app.route("/logout", methods=['GET','POST'])
+def logout():
+    session["loggedin"]=None
+    return redirect(url_for("home"))
 
 @app.route("/register", methods=['GET','POST'])
 def register():
@@ -54,6 +58,8 @@ def register():
     
 @app.route("/admin", methods=['GET','POST'])
 def admin():
+    if mongo.getEntry("modelun","users",{"email":session["loggedin"]}).count() == 0:
+        return redirect(url_for("home"))
     if request.method == 'POST':
         #schedule the email
         if 'schedule-email' in request.form:
