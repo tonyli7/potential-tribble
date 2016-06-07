@@ -147,7 +147,6 @@ def attend():
         utils.attendConference(request.form["submit"],attendee)
     return render_template("attend_conference.html",advisor_fields=mongo.getEntry("fields","advisor",{}),delegate_fields=mongo.getEntry("fields","delegate",{}))
 
-<<<<<<< HEAD
 @app.route("/files")
 def downloads():
     files = os.listdir("./static/uploads")
