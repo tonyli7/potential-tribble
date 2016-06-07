@@ -151,3 +151,16 @@ def addField(usertype,fieldname):
     if mongo.getEntry("fields",usertype,query).count() == 0:
         mongo.addEntry("fields",usertype,query)
     
+#add session
+def newSession(user):
+    mongo.addEntry("fields","sessions",{"user":user})
+    sessions = mongo.getEntry("fields","sessions",{"user":user})
+    return str(sessions[0]["_id"])
+
+#check session
+def checkSession(user,session_id):
+    return mongo.getEntry("fields","sessions",{"user":user,"_id":ObjectId(session_id)}).count() > 0
+    
+#delete session
+def delSession(session_id):
+    mongo.deleteEntry("fields","sessions",{"_id":ObjectId(session_id)})

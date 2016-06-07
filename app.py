@@ -17,14 +17,12 @@ def home():
 def login(): 
     if session.get("loggedin") == None:
         if request.method == 'POST':
-
             if request.form['email'] and request.form['pwd']:
-
                 email = request.form['email']
                 pwd = request.form['pwd']
-
                 if utils.pwordAuth(email,pwd,"admin"):
                     session["loggedin"]=email
+                    session["id"]=utils.newSession(email)
                     return redirect(url_for("home"))
                 else:
                     return render_template("login.html", failure="email/password combination does not exist.")
@@ -36,12 +34,13 @@ def login():
 @app.route("/logout", methods=['GET','POST'])
 def logout():
     session["loggedin"]=None
+    session["id"]=None
+    utils.delSession(session["id"])
     return redirect(url_for("home"))
 
 @app.route("/register", methods=['GET','POST'])
 def register():
     if request.method == 'POST':
-
         if request.form['email'] and request.form['f_name'] and request.form['l_name'] and request.form['pwd']:
             email = request.form['email']
             f_name = request.form['f_name']
@@ -58,7 +57,7 @@ def register():
     
 @app.route("/admin", methods=['GET','POST'])
 def admin():
-    if mongo.getEntry("modelun","users",{"email":session["loggedin"]}).count() == 0:
+    if not utils.checkSession(session["loggedin"],session["id"]):
         return redirect(url_for("home"))
     if request.method == 'POST':
         #schedule the email
