@@ -114,12 +114,17 @@ def updateAbout(text):
     t = about.read()
     soup = BeautifulSoup(t, 'html.parser')
     lines = t.split('\n')[:2]
-    print soup.prettify()
-    soup.p.replaceWith("<p>"+text+"</p>")
-    print soup.get_text()
+
+    p_tag = soup.p
+    new_tag = soup.new_tag("p")
+    new_tag.string = text
+    p_tag.replace_with(new_tag)
+    
+    
     #soup.p = "<p>"+text+"</p>"
-    new = lines[0]+"\n"+lines[1]+"\n"+soup.get_text()
+    new = lines[0]+"\n"+lines[1]+"\n"+soup.prettify()
     print new
+    
     about.close()
     
 
