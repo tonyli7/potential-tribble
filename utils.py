@@ -135,7 +135,42 @@ def updateAbout(text):
     about = open("templates/about.html","w")
     about.write(new)
     about.close()
+
+def updateContact(stuff):
+    contact = open("templates/contact.html","r")
+    t = contact.read()
+    soup = BeautifulSoup(t, 'html.parser')
+    lines = t.split('\n')[:2]
+
+    br="&lt;br&gt;"
     
+    p_tag = soup.p
+    new_tag = soup.new_tag("p")
+    new_tag.string = stuff[0]+"\n"+stuff[1]
+    p_tag.replace_with(new_tag)
+    
+    
+    #soup.p = "<p>"+text+"</p>"
+    new1=""
+    new = lines[0]+"\n"+lines[1]+"\n"+soup.prettify()
+    for i in new:
+        if i == "\n":
+            new1 += "<br>"
+        else:
+            new1+=i
+    print new1
+    
+    contact.close()
+    
+    """
+    #about = open("templates/about.html","w")
+    #about.write(new)
+    #about.close()
+
+    contact = open("templates/about.html","w")
+    contact.write(new)
+    contact.close()
+    """ 
 #add event to schedule
 def addEvent(event,description,start,end):
     startDate = datetime.datetime.strptime(start,"%Y-%m-%dT%H:%M")

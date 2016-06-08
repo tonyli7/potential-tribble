@@ -7,11 +7,26 @@
     <div class="form-group">
       <label for="comment">Update About</label>
       <textarea class="form-control" type="text" rows="5" id="about" name="about"></textarea>
-      <button type="submit" class="btn btn-default">Submit</button>
+      <h2>Update Contact</h2>
+      <div class="form-group">
+	<label for="name">Name:</label>
+	<input type="text" class="form-control" id="name" name="name" placeholder="Update Name">
+      </div>
+      <div class="form-group">
+	<label for="email">Email:</label>
+	<input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+      </div>
+      <button type="submit" class="btn btn-default" value="about">Submit</button>
     </div>
-    
   </form>
 </div>
 
-
+<!--
+<div class="container">
+  <form role="form" method="POST">
+   
+    <button type="submit" class="btn btn-default" value="contact">Submit</button>
+  </form>
+</div>
+-->
 {% endblock %}
