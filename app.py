@@ -153,6 +153,23 @@ def downloads():
     files = os.listdir("./static/uploads")
     return render_template("files.html", files=files)
 
+@app.route("/contact", methods=['GET','POST'])
+def contact():
+    if request.method == "POST":
+        email = "litony2300@gmail.com"
+        pwd = "12345"
+        status = "Success"
+        if request.form['subj'] and request.form['msg']:
+            subj = request.form['subj']
+            msg = request.form['msg']
+
+            utils.emailUser(email, pwd, subj, msg, 0)
+        else:
+            status = "Failure"
+
+        return render_template("contact.html", status = status)
+    else:
+        return render_template("contact.html")
 
 setup(app)
 
