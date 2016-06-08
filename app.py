@@ -6,11 +6,12 @@ from flask.ext.session import Session, MongoDBSessionInterface
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = settings.UPLOAD_FOLDER
 app.config['SESSION_TYPE'] = settings.SESSION_TYPE
+email_receiver=[]
 
 def setup(app):
     utils.createUser("admin@stuymunc.com","proscientia","admin")
     Session(app)
-
+    
 setup(app)
     
 @app.route("/")
@@ -77,7 +78,9 @@ def admin():
 
         #set the automatic reply
         if 'set-reply' in request.form:
-            utils.scheduleEmailListener(request.form['email'],request.form['password'],request.form['subject'],request.form['response'])
+            for receiver in email_receiver:
+                receiver.shutdown(wait=False)
+            email_receiver.append(utils.scheduleEmailListener(request.form['email'],request.form['password'],request.form['subject'],request.form['response']))
             
         #upload a file to gallery
         if 'upload-file' in request.form:
@@ -162,20 +165,10 @@ def downloads():
 @app.route("/contact", methods=['GET','POST'])
 def contact():
     if request.method == "POST":
-        email = "litony2300@gmail.com"
-        pwd = "12345"
-        status = "Success"
-        if request.form['subj'] and request.form['msg']:
-            subj = request.form['subj']
-            msg = request.form['msg']
-
-            utils.emailUser(email, pwd, subj, msg, 0)
-        else:
-            status = "Failure"
-
-        return render_template("contact.html", status = status, user=session.get("loggedin"))
+        print mongo.getEntry("fields","main",{}).count()
+        return render_template("contact.html", status = status, user=session.get("loggedin"),muncemail=mongo.getEntry("fields","main",{})[0]["email"])
     else:
-        return render_template("contact.html", user=session.get("loggedin"))
+        return render_template("contact.html", user=session.get("loggedin"),muncemail=mongo.getEntry("fields","main",{})[0]["email"])
 
 
 if __name__=="__main__":

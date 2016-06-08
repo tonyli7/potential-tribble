@@ -64,6 +64,12 @@ def scheduleNotification(username, password, receivers, subject, message, attach
 
 #checks for unseen emails and sends an automated response
 def respondToEmails(username,password,response_subject,automated_response):
+    if username == None and password == None:
+        mains=mongo.getEntry("fields","main",{})
+        if mains.count() > 0:
+            print mains[0]
+            username = mains[0]["email"]
+            password = mains[0]["password"]
     conn = imaplib.IMAP4_SSL("imap.gmail.com")
     status,user = conn.login(username,password)
     if status == 'OK':
@@ -97,8 +103,11 @@ def scheduleEmailListener(username,password,response_subject,automated_response)
     logging.basicConfig()
     scheduler=Scheduler()
     scheduler.start()
-    scheduler.add_interval_job(respondToEmails,minutes=5,args=[username,password,response_subject,automated_response])
+    scheduler.add_interval_job(respondToEmails,minutes=1,args=[username,password,response_subject,automated_response])
+    mongo.deleteEntry("fields","main",{})
+    mongo.addEntry("fields","main",{"email":username,"password":password})
     atexit.register(lambda:scheduler.shutdown(wait=False))
+    return scheduler
 
 def updateAbout(text):
     about = open("templates/about.html","r")
@@ -131,7 +140,6 @@ def addEvent(event,description,start,end):
 #get schedule
 def getEvents():
     return mongo.getEntry("conference","schedule",{}).sort("start")
-
 
 #delete events
 def deleteEvents(item_ids):
