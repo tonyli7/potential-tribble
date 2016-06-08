@@ -115,7 +115,15 @@ def admin():
     delegate_fields= mongo.getEntry("fields","delegate",{})
     delegate_header= [f['field'] for f in delegate_fields]
     delegate_fields.rewind()
-    return render_template("admin.html",admins=utils.getCollection("users"),delegate_headers=delegate_header,delegates=utils.getCollection("delegate"),advisor_headers=advisor_header,advisors=utils.getCollection("advisor"),collections=mongo.getCollections("modelun"),schedule=utils.getEvents(),advisor_fields=advisor_fields,delegate_fields=delegate_fields)
+    return render_template("admin.html",admins=utils.getCollection("users"),
+                           delegate_headers=delegate_header,
+                           delegates=utils.getCollection("delegate"),
+                           advisor_headers=advisor_header,
+                           advisors=utils.getCollection("advisor"),
+                           collections=mongo.getCollections("modelun"),
+                           schedule=utils.getEvents(),
+                           advisor_fields=advisor_fields,
+                           delegate_fields=delegate_fields)
 
 @app.route("/about")
 def about():
@@ -139,16 +147,6 @@ def allowed_file(filename):
 @app.route(app.config['UPLOAD_FOLDER']+'/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
-
-@app.route("/attend_conference",methods=['GET','POST'])
-def attend():
-    if request.method == "POST":
-        attendee={}
-        for attribute in request.form:
-            if attribute != "submit":
-                attendee[attribute]=request.form[attribute]
-        utils.attendConference(request.form["submit"],attendee)
-    return render_template("attend_conference.html",advisor_fields=mongo.getEntry("fields","advisor",{}),delegate_fields=mongo.getEntry("fields","delegate",{}))
 
 @app.route("/files")
 def downloads():

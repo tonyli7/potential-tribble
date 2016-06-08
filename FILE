@@ -1,0 +1,13 @@
+2016-06-07 18:33:20 [3344] [INFO] Starting gunicorn 19.0.0
+2016-06-07 18:33:20 [3344] [INFO] Listening at: http://127.0.0.1:8000 (3344)
+2016-06-07 18:33:20 [3344] [INFO] Using worker: sync
+2016-06-07 18:33:20 [3349] [INFO] Booting worker with pid: 3349
+2016-06-07 18:33:21 [3353] [INFO] Booting worker with pid: 3353
+2016-06-07 18:33:21 [3352] [INFO] Booting worker with pid: 3352
+2016-06-07 18:33:21 [3357] [INFO] Booting worker with pid: 3357
+2016-06-07 18:33:35 [3352] [INFO] Worker exiting (pid: 3352)
+2016-06-07 18:33:35 [3357] [INFO] Worker exiting (pid: 3357)
+2016-06-07 18:33:35 [3353] [INFO] Worker exiting (pid: 3353)
+2016-06-07 18:33:35 [3349] [INFO] Worker exiting (pid: 3349)
+2016-06-07 18:33:35 [3344] [INFO] Handling signal: int
+2016-06-07 18:33:36 [3344] [INFO] Shutting down: Master

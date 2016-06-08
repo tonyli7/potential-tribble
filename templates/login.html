@@ -5,7 +5,7 @@
 {% block body %}
 
   <div class="container">
-    <h2>Login or Register for an Account</h2>
+    <h2>Login to Your Account</h2>
     <form role="form" method="POST">
       <div class="form-group">
 	<label for="email">Email:</label>
@@ -18,7 +18,7 @@
       <div class="checkbox">
 	<label><input type="checkbox"> Remember me</label>
       </div>
-      <button type="submit" class="btn btn-default">Register</button>
+      <button type="submit" class="btn btn-default">Login</button>
       {% if failure %}
       <h2>{{failure}}</h2>
       {% endif%}
