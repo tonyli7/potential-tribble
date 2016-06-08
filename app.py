@@ -1,12 +1,17 @@
 import utils, mongo, os, settings
 from werkzeug.utils import secure_filename
 from flask import Flask, session, render_template, url_for, request, redirect, send_from_directory
+from flask.ext.session import Session, MongoDBSessionInterface
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = settings.UPLOAD_FOLDER
+app.config['SESSION_TYPE'] = settings.SESSION_TYPE
 
 def setup(app):
     utils.createUser("admin@stuymunc.com","proscientia","admin")
+    Session(app)
+
+setup(app)
     
 @app.route("/")
 @app.route("/home")
@@ -33,9 +38,9 @@ def login():
 
 @app.route("/logout", methods=['GET','POST'])
 def logout():
+    utils.delSession(session["id"])
     session["loggedin"]=None
     session["id"]=None
-    utils.delSession(session["id"])
     return redirect(url_for("home"))
 
 @app.route("/register", methods=['GET','POST'])
@@ -48,7 +53,7 @@ def register():
         utils.attendConference(request.form["submit"],attendee)
         return render_template("register.html", success="You've successfully registered!",advisor_fields=mongo.getEntry("fields","advisor",{}),delegate_fields=mongo.getEntry("fields","delegate",{}))
     else:
-        return render_template("register.html",advisor_fields=mongo.getEntry("fields","advisor",{}),delegate_fields=mongo.getEntry("fields","delegate",{}))
+        return render_template("register.html",user=session.get("loggedin"),advisor_fields=mongo.getEntry("fields","advisor",{}),delegate_fields=mongo.getEntry("fields","delegate",{}))
 
     
 @app.route("/admin", methods=['GET','POST'])
@@ -123,11 +128,12 @@ def admin():
                            collections=mongo.getCollections("modelun"),
                            schedule=utils.getEvents(),
                            advisor_fields=advisor_fields,
-                           delegate_fields=delegate_fields)
+                           delegate_fields=delegate_fields,
+                           user=session.get("loggedin"))
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+    return render_template("about.html",user=session.get("loggedin"))
 
 @app.route("/edit", methods=['GET','POST'])
 def edit():
@@ -136,9 +142,9 @@ def edit():
         
         text = request.form['about']
         utils.updateAbout(text)
-        return render_template("edit.html")
+        return render_template("edit.html",user=session.get("loggedin"))
     else:
-        return render_template("edit.html")
+        return render_template("edit.html",user=session.get("loggedin"))
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -151,7 +157,7 @@ def uploaded_file(filename):
 @app.route("/files")
 def downloads():
     files = os.listdir("./static/uploads")
-    return render_template("files.html", files=files)
+    return render_template("files.html", files=files,user=session.get("loggedin"))
 
 @app.route("/contact", methods=['GET','POST'])
 def contact():
@@ -167,11 +173,10 @@ def contact():
         else:
             status = "Failure"
 
-        return render_template("contact.html", status = status)
+        return render_template("contact.html", status = status, user=session.get("loggedin"))
     else:
-        return render_template("contact.html")
+        return render_template("contact.html", user=session.get("loggedin"))
 
-setup(app)
 
 if __name__=="__main__":
     app.debug = True
