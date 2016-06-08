@@ -155,22 +155,22 @@ def updateContact(stuff):
     new = lines[0]+"\n"+lines[1]+"\n"+soup.prettify()
     for i in new:
         if i == "\n":
-            new1 += "<br>"
+            new1 += "<br>\n"
         else:
             new1+=i
     print new1
     
     contact.close()
     
-    """
+    
     #about = open("templates/about.html","w")
     #about.write(new)
     #about.close()
 
-    contact = open("templates/about.html","w")
-    contact.write(new)
+    contact = open("templates/contact.html","w")
+    contact.write(new1)
     contact.close()
-    """ 
+     
 #add event to schedule
 def addEvent(event,description,start,end):
     startDate = datetime.datetime.strptime(start,"%Y-%m-%dT%H:%M")
