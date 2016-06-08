@@ -139,8 +139,9 @@ def about():
 def edit():
     if request.method == 'POST':
 
-        
+        print 1
         text = request.form['about']
+        print text
         utils.updateAbout(text)
         return render_template("edit.html",user=session.get("loggedin"))
     else:
