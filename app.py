@@ -141,11 +141,22 @@ def about():
 @app.route("/edit", methods=['GET','POST'])
 def edit():
     if request.method == 'POST':
-
         print 1
-        text = request.form['about']
-        print text
-        utils.updateAbout(text)
+        print request.form['about']
+        """
+        if request.form['about']:
+            about_text = request.form['about']
+            utils.updateAbout(about_text)
+        """
+        print request.form['name']
+        print request.form['email']
+        if request.form['name'] and request.form['email']:
+
+            name = request.form['name']
+            email = request.form['email']
+            contact_text = [name,email]
+            utils.updateContact(contact_text)
+              
         return render_template("edit.html",user=session.get("loggedin"))
     else:
         return render_template("edit.html",user=session.get("loggedin"))
@@ -163,13 +174,9 @@ def downloads():
     files = os.listdir("./static/uploads")
     return render_template("files.html", files=files,user=session.get("loggedin"))
 
-@app.route("/contact", methods=['GET','POST'])
+@app.route("/contact")
 def contact():
-    if request.method == "POST":
-        print mongo.getEntry("fields","main",{}).count()
-        return render_template("contact.html", status = status, user=session.get("loggedin"),muncemail=mongo.getEntry("fields","main",{})[0]["email"])
-    else:
-        return render_template("contact.html", user=session.get("loggedin"),muncemail=mongo.getEntry("fields","main",{})[0]["email"])
+    return render_template("contact.html")
 
 
 if __name__=="__main__":
