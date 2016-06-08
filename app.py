@@ -116,7 +116,12 @@ def admin():
         #add admin
         if 'add-admin' in request.form:
             utils.createUser(request.form["admin-email"],request.form["admin-pass"],"admin")
-            
+
+        #set stumunc
+        if 'set-stuymunc' in request.form:
+            mongo.deleteEntry("fields","start-time",{})
+            mongo.addEntry("fields","start-time",{"time":request.form["start-time"]})
+        
     advisor_fields = mongo.getEntry("fields","advisor",{})
     advisor_header = [f['field'] for f in advisor_fields]
     advisor_fields.rewind()
