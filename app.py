@@ -1,12 +1,15 @@
 import utils, mongo, os, settings
 from werkzeug.utils import secure_filename
 from flask import Flask, session, render_template, url_for, request, redirect, send_from_directory
+from flask.ext.session import Session
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = settings.UPLOAD_FOLDER
+Session(app)
 
 def setup(app):
     utils.createUser("admin@stuymunc.com","proscientia","admin")
+    
     
 @app.route("/")
 @app.route("/home")
@@ -21,8 +24,9 @@ def login():
                 email = request.form['email']
                 pwd = request.form['pwd']
                 if utils.pwordAuth(email,pwd,"admin"):
-                    session["loggedin"]=email
-                    session["id"]=utils.newSession(email)
+                    print session
+                    #session["loggedin"]=email
+                    #session["id"]=utils.newSession(email)
                     return redirect(url_for("home"))
                 else:
                     return render_template("login.html", failure="email/password combination does not exist.")
