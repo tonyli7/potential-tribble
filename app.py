@@ -1,4 +1,4 @@
-import utils, mongo, os, settings
+import utils, mongo, os, settings, datetime
 from werkzeug.utils import secure_filename
 from flask import Flask, session, render_template, url_for, request, redirect, send_from_directory
 from flask.ext.session import Session, MongoDBSessionInterface
@@ -17,7 +17,12 @@ setup(app)
 @app.route("/")
 @app.route("/home")
 def home():
-    return render_template("home.html",user=session.get("loggedin"))
+    start=mongo.getEntry("fields","start-time",{})
+    countto=None
+    if start.count() > 0:
+        countto=start[0]["time"]
+    countto = datetime.datetime.strptime(countto,"%Y-%m-%dT%H:%M")
+    return render_template("home.html",user=session.get("loggedin"),countto=countto.__format__("%Y,%m,%D,%H,%M"),a=countto.year,b=countto.month,c=countto.day,d=countto.hour,e=countto.minute)
 
 @app.route("/login", methods = ['GET','POST'])
 def login(): 

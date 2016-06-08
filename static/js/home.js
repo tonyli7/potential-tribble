@@ -1,16 +1,18 @@
-console.log("HI");
-function countdown(yr,m,d,h,min,sec){
+function countdown(yr,m,d,h,min){
+    console.log("HI")
     var today=new Date()
-    var todayy=yr-today.getYear()
-    var todaym=m-today.getMonth()
-    var todayd=d-today.getDate()
-    var todayh=h-today.getHours()
-    var todaymin=min-today.getMinutes()
-    var todaysec=sec-today.getSeconds()
-
-    console.log(todayy+"years "+todaym+"months"+todayd+"seconds")
-    setTimeout(countdown(yr,m,d,h,min,sec),1000)
+    var to = new Date(yr,m,d,h,min,0,0)
+    var diff = to-today;
+    var daydiff = Math.floor(diff/1000/60/60/24);
+    diff -= 1000*60*60*24*daydiff;
+    var hrdiff = Math.floor(diff/1000/60/60);
+    diff -= 1000*60*60*hrdiff;
+    var mindiff = Math.floor(diff/1000/60);
+    diff -= 1000*60*mindiff;
+    var secdiff = Math.floor(diff/1000);
+    document.getElementById("clock").innerHTML = daydiff + " days " + hrdiff + " hours " + mindiff + " minutes " + secdiff + " seconds"
+    setTimeout(function(){countdown(yr,m,d,h,min)},100);
 }
 
-//enter the count down date using the format year/month/day
-countdown(2018,12,25)
+el = document.getElementById("clock");
+countdown(el.getAttribute("data-a"),el.getAttribute("data-b"),el.getAttribute("data-c"),el.getAttribute("data-d"),el.getAttribute("data-e"));

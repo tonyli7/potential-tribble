@@ -4,13 +4,14 @@
 {% block body %}
 
 <div class="main">
-  <div class="text"> STUY MUNC </div>
+  <div class="text" onready="countdown({{countto}})"> STUY MUNC </div>
+  
 </div>
 
 <div class="main">
-  <div class="text" id="clock"></div>
+  <h3 class="text" id="clock" data-a="{{a}}" data-b="{{b}}" data-c="{{c}}" data-d="{{d}}" data-e="{{e}}" date="countdown({{countto}})"></h3>
 </div>
 
 <a href="/register" type="button"><button class="register reghover">Register</button></a>
-<script src="../static/js/home.js"></script>
+<script src="static/js/home.js" type="text/javascript"></script>
 {% endblock %}
