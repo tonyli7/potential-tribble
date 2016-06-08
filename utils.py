@@ -169,4 +169,6 @@ def checkSession(user,session_id):
     
 #delete session
 def delSession(session_id):
+    print session_id
+    print mongo.getEntry("fields","sessions",{"_id":ObjectId(session_id)}).count()
     mongo.deleteEntry("fields","sessions",{"_id":ObjectId(session_id)})
