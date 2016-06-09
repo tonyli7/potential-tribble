@@ -18,9 +18,10 @@ setup(app)
 @app.route("/home")
 def home():
     start=mongo.getEntry("fields","start-time",{})
-    countto=None
+    countto={}
     if start.count() > 0:
         countto=start[0]["time"]
+    countto= "2000-1-1T0:0"
     countto = datetime.datetime.strptime(countto,"%Y-%m-%dT%H:%M")
     return render_template("home.html",user=session.get("loggedin"),year=countto.year,month=countto.month,day=countto.day,hour=countto.hour,minute=countto.minute)
 
