@@ -138,6 +138,7 @@ def admin():
                            delegates=utils.getCollection("delegate"),
                            advisor_headers=advisor_header,
                            advisors=utils.getCollection("advisor"),
+                           interest=utils.getCollection("interest"),
                            collections=mongo.getCollections("modelun"),
                            schedule=utils.getEvents(),
                            advisor_fields=advisor_fields,
@@ -187,7 +188,6 @@ def downloads():
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
-
 
 if __name__=="__main__":
     app.debug = True

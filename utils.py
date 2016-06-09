@@ -192,6 +192,7 @@ def deleteEntries(item_ids):
     mongo.deleteEntry("modelun","users",{"_id": {"$in": object_ids}})
     mongo.deleteEntry("modelun","advisor",{"_id": {"$in": object_ids}})
     mongo.deleteEntry("modelun","delegate",{"_id": {"$in": object_ids}})
+    mongo.deleteEntry("modelun","interest",{"_id": {"$in": object_ids}})
 
 #delete fields
 def deleteFields(item_ids):
