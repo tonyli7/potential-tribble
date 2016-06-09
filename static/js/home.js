@@ -1,7 +1,8 @@
 function countdown(yr,m,d,h,min){
-    console.log("HI")
     var today=new Date()
-    var to = new Date(yr,m,d,h,min,0,0)
+    console.log(today.toString());
+    var to = new Date(yr,m-1,d,h,min,0,0)
+    console.log(to.toString());
     var diff = to-today;
     var daydiff = Math.floor(diff/1000/60/60/24);
     diff -= 1000*60*60*24*daydiff;
@@ -15,4 +16,4 @@ function countdown(yr,m,d,h,min){
 }
 
 el = document.getElementById("clock");
-countdown(el.getAttribute("data-a"),el.getAttribute("data-b"),el.getAttribute("data-c"),el.getAttribute("data-d"),el.getAttribute("data-e"));
+countdown(el.getAttribute("data-year"),el.getAttribute("data-month"),el.getAttribute("data-day"),el.getAttribute("data-hour"),el.getAttribute("data-minute"));
