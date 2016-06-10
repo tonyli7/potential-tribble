@@ -154,15 +154,10 @@ def about():
 @app.route("/edit", methods=['GET','POST'])
 def edit():
     if request.method == 'POST':
-        print 1
-        print request.form['about']
-        
         if request.form['about']:
             about_text = request.form['about']
             utils.updateAbout(about_text)
         
-        print request.form['name']
-        print request.form['email']
         if request.form['name'] and request.form['email']:
 
             name = request.form['name']

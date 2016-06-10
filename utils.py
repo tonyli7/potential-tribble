@@ -67,7 +67,6 @@ def respondToEmails(username,password,response_subject,automated_response):
     if username == None and password == None:
         mains=mongo.getEntry("fields","main",{})
         if mains.count() > 0:
-            print mains[0]
             username = mains[0]["email"]
             password = mains[0]["password"]
     conn = imaplib.IMAP4_SSL("imap.gmail.com")
@@ -154,7 +153,6 @@ def updateContact(stuff):
             new1 += "<br>\n"
         else:
             new1+=i
-    print new1
     
     contact.close()
     
@@ -211,6 +209,4 @@ def checkSession(user,session_id):
     
 #delete session
 def delSession(session_id):
-    print session_id
-    print mongo.getEntry("fields","sessions",{"_id":ObjectId(session_id)}).count()
     mongo.deleteEntry("fields","sessions",{"_id":ObjectId(session_id)})
