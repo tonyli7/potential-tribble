@@ -7,7 +7,7 @@ body{
 
 h1.title{
     position: relative;
-    left: 40%;
+    left: 45%;
     width: 100%;
     
 }
@@ -16,7 +16,7 @@ hr.one{
     display: block;
     content: "";
     height: 30px;
-    margin-top: -31px;
+    //margin-top: -31px;
     border-style: solid;
     border-color: black;
     border-width: 0 0 1px 0;
@@ -36,4 +36,11 @@ p{
     word-wrap: break-word;
     padding: 20px 20px;
     background-color: rgba(0,0,0,.5);
+    left: 20%;
+    right: 30%;
+}
+
+.content{
+    position: relative;
+    top: 20%;
 }

@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
-
+{% extends "base.html" %}
+{% block body %}
 <h1>Files</h2>
 {% for img in imgs %}
 
@@ -11,3 +12,4 @@
 <a href="static/uploads/{{doc}}">{{doc}}</a>
 {% endfor %}
 
+{% endblock %}

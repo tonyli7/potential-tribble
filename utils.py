@@ -113,7 +113,7 @@ def updateAbout(text):
     about = open("templates/about.html","r")
     t = about.read()
     soup = BeautifulSoup(t, 'html.parser')
-    lines = t.split('\n')[:2]
+   
 
     p_tag = soup.p
     new_tag = soup.new_tag("p")
@@ -121,16 +121,12 @@ def updateAbout(text):
     p_tag.replace_with(new_tag)
     
     
-    #soup.p = "<p>"+text+"</p>"
-    new = lines[0]+"\n"+lines[1]+"\n"+soup.prettify()
-    print new
+   
+    new = soup.prettify()
     
     about.close()
     
 
-    #about = open("templates/about.html","w")
-    #about.write(new)
-    #about.close()
 
     about = open("templates/about.html","w")
     about.write(new)
@@ -140,21 +136,21 @@ def updateContact(stuff):
     contact = open("templates/contact.html","r")
     t = contact.read()
     soup = BeautifulSoup(t, 'html.parser')
-    lines = t.split('\n')[:2]
+   
 
-    br="&lt;br&gt;"
+   
     
     p_tag = soup.p
     new_tag = soup.new_tag("p")
-    new_tag.string = stuff[0]+"\n"+stuff[1]
+    new_tag.string = stuff[0]+"["+stuff[1]
     p_tag.replace_with(new_tag)
     
     
-    #soup.p = "<p>"+text+"</p>"
+  
     new1=""
-    new = lines[0]+"\n"+lines[1]+"\n"+soup.prettify()
+    new = soup.prettify()
     for i in new:
-        if i == "\n":
+        if i == "[":
             new1 += "<br>\n"
         else:
             new1+=i
@@ -163,9 +159,6 @@ def updateContact(stuff):
     contact.close()
     
     
-    #about = open("templates/about.html","w")
-    #about.write(new)
-    #about.close()
 
     contact = open("templates/contact.html","w")
     contact.write(new1)
