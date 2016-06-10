@@ -1,7 +1,45 @@
-5/24 (Client meeting #2)
-  -website designed to help future admins
-  -should easily allow other people to attend stuymuncs
-  -should allow admins to easily update information
-  -incorporate different levels of admins
-  -information should be easily navigable
-  
+EVERYDAY: DEBUG DAY
+
+6/9
+FIN
+Edit is now a separate page
+Styling for all pages
+
+6/8
+Clock featured on homepage
+File tab for uploaded files
+
+6/7
+Bug fixes with autoreply
+Session persistence
+Editable text
+
+6/6
+Registration forms now editable by admin
+
+6/5
+Email filters
+Cleaned up styling on admin page
+
+6/4
+Email attachments
+
+5/30
+Admins can set up emails to receive information
+
+5/29
+Admins can set up an email to automatically respond to queries
+
+5/28
+Significant styling improvements
+
+5/26
+CLIENT MEETING 2
+More complex emails can be sent
+
+5/25
+Admin can send emails from site, can be scheduled
+Admin page
+
+5/24
+Setting up base files
