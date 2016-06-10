@@ -184,9 +184,15 @@ def uploaded_file(filename):
 @app.route("/files")
 def downloads():
     files = os.listdir("./static/uploads")
+    imgs=[]
+    docs=[]
     for i in files:
-        print i
-    return render_template("files.html", files=files,user=session.get("loggedin"))
+        if 'png' in i or 'jpg' in i or 'jpeg' in i or 'gif' in i:
+            imgs.append(i)
+        else:
+            docs.append(i)
+
+    return render_template("files.html", imgs=imgs,docs=docs,user=session.get("loggedin"))
 
 @app.route("/contact")
 def contact():

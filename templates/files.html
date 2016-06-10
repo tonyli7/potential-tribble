@@ -1,9 +1,13 @@
 <!DOCTYPE HTML>
 
 <h1>Files</h2>
-{% for file in files %}
+{% for img in imgs %}
 
-<img src="static/uploads/{{file}}" alt="img" height="100" width="100"></img>
+<img src="static/uploads/{{img}}" alt="img" height="100" width="100"></img>
 
-{% endfor%}
+{% endfor %}
+
+{% for doc in docs %}
+<a href="static/uploads/{{doc}}">{{doc}}</a>
+{% endfor %}
 
