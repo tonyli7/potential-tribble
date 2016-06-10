@@ -34,24 +34,29 @@
     background-color: rgba(0,0,0,.5);
     height: 300px;
     width: 100%;
-    
 }
 
 .text{
-    position: absolute;
+    position: block;
+    width:100%;
+    text-align:center;
+    font-size: 12vw;
+    margin:0 auto;
     color: white;
-    font-size: 150px;
     opacity: 1.0;
-    left: 15%;
 }
 
 .time{
-    position: absolute;
+    position: block;
     color: white;
-    font-size: 30px;
     opacity: 1.0;
-    left: 15%;
+    margin:0 auto;
+    width:100%;
+    font-size: 4vw;	      
+    text-align:center;
+
 }
+
 @media only screen and (max-width: 1200px){
     .register{
 	position: absolute;
@@ -86,19 +91,23 @@
     }
     
     .text{
-	position: absolute;
+	position: block;
+	width:100%;
+	text-align:center;
 	color: white;
-	font-size: 50px;
+	font-size: 12vw;
 	opacity: 1.0;
-	left: 15%;
+	margin:0 auto;
     }
     
     .time{
-	position: absolute;
+	position: block;
 	color: white;
-	font-size: 16px;
+	width:100%
+	font-size: 4vw;
 	opacity: 1.0;
-	left: 15%;
+	margin:0 auto;
+	text-align:center;
     }
 }
 
@@ -115,4 +124,11 @@ label{
 
 h2{
     color: white;
+}
+
+#schedule{
+    margin:10px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color:white;
 }

@@ -23,7 +23,7 @@ def home():
         countto=start[0]["time"]
     countto= "2000-1-1T0:0"
     countto = datetime.datetime.strptime(countto,"%Y-%m-%dT%H:%M")
-    return render_template("home.html",user=session.get("loggedin"),year=countto.year,month=countto.month,day=countto.day,hour=countto.hour,minute=countto.minute)
+    return render_template("home.html",user=session.get("loggedin"),year=countto.year,month=countto.month,day=countto.day,hour=countto.hour,minute=countto.minute,schedule=utils.getEvents())
 
 @app.route("/login", methods = ['GET','POST'])
 def login(): 
