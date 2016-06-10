@@ -177,13 +177,15 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in settings.ALLOWED_EXTENSIONS
     
-@app.route(app.config['UPLOAD_FOLDER']+'/<filename>')
+@app.route('/files'+'static/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'],filename)
 
 @app.route("/files")
 def downloads():
     files = os.listdir("./static/uploads")
+    for i in files:
+        print i
     return render_template("files.html", files=files,user=session.get("loggedin"))
 
 @app.route("/contact")
