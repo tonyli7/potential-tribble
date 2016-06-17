@@ -18,13 +18,14 @@ setup(app)
 @app.route("/")
 @app.route("/home")
 def home():
+    return """
     start=mongo.getEntry("fields","start-time",{})
     countto= "2000-1-1T0:0"
     if start.count() > 0:
         countto=start[0]["time"]
     countto = datetime.datetime.strptime(countto,"%Y-%m-%dT%H:%M")
     return render_template("home.html",user=session.get("loggedin"),year=countto.year,month=countto.month,day=countto.day,hour=countto.hour,minute=countto.minute,schedule=utils.getEvents())
-
+    """
 if __name__=="__main__":
     app.debug = True
     app.secret_key="Don't upload to github"
