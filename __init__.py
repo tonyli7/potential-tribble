@@ -46,7 +46,7 @@ def login():
 
 @app.route("/logout", methods=['GET','POST'])
 def logout():
-    utils.delSession(session["id"])
+    #utils.delSession(session["id"])
     session["loggedin"]=None
     session["id"]=None
     return redirect(url_for("home"))
@@ -66,8 +66,8 @@ def register():
     
 @app.route("/admin", methods=['GET','POST'])
 def admin():
-    if not utils.checkSession(session["loggedin"],session["id"]):
-        return redirect(url_for("home"))
+    #if not utils.checkSession(session["loggedin"],session["id"]):
+    #    return redirect(url_for("home"))
     if request.method == 'POST':
         #schedule the email
         if 'schedule-email' in request.form:
@@ -147,7 +147,7 @@ def admin():
                            delegate_fields=delegate_fields,
                            user=session.get("loggedin"))
 
-"""
+
 @app.route("/about")
 def about():
     return render_template("about.html",user=session.get("loggedin"))
@@ -194,7 +194,7 @@ def downloads():
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
-"""
+
 if __name__=="__main__":
     app.debug = True
     app.secret_key="Don't upload to github"
