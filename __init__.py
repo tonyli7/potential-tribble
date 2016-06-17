@@ -1,20 +1,21 @@
 import utils, mongo, os, settings, datetime
 from werkzeug.utils import secure_filename
 from flask import Flask, session, render_template, url_for, request, redirect, send_from_directory
-#from flask.ext.session import Session, MongoDBSessionInterface
+from flask.ext.session import Session, MongoDBSessionInterface
 
 app = Flask(__name__)
 app.secret_key=os.urandom(24)
 app.config['UPLOAD_FOLDER'] = settings.UPLOAD_FOLDER
-#app.config['SESSION_TYPE'] = settings.SESSION_TYPE
+app.config['SESSION_TYPE'] = settings.SESSION_TYPE
 email_receiver=[]
 """
 def setup(app):
     utils.createUser("admin@stuymunc.com","proscientia","admin")
-    #Session(app)
+    Session(app)
     
 setup(app)
 """
+Session(app)
 @app.route("/")
 @app.route("/home")
 def home():

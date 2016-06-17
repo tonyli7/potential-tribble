@@ -21,12 +21,10 @@
 	<li><a href="/files">Files</a></li>
 	{% if user %}
 	<li><a href="/logout">Logout</a></li>
-	{% else %}
-	<li><a href="/login">Login</a></li>
-	{% endif %}
-	{% if user %}
 	<li><a href="/admin">Admin</a></li>
 	<li><a href="/edit">Edit</a></li>
+	{% else %}
+	<li><a href="/login">Login</a></li>
 	{% endif %}
       </ul>
     </div>
