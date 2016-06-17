@@ -8,13 +8,13 @@ app.secret_key=os.urandom(24)
 app.config['UPLOAD_FOLDER'] = settings.UPLOAD_FOLDER
 #app.config['SESSION_TYPE'] = settings.SESSION_TYPE
 email_receiver=[]
-
+"""
 def setup(app):
     utils.createUser("admin@stuymunc.com","proscientia","admin")
     #Session(app)
     
 setup(app)
-
+"""
 @app.route("/")
 @app.route("/home")
 def home():
@@ -25,7 +25,7 @@ def home():
     countto = datetime.datetime.strptime(countto,"%Y-%m-%dT%H:%M")
     return render_template("home.html",user=session.get("loggedin"),year=countto.year,month=countto.month,day=countto.day,hour=countto.hour,minute=countto.minute,schedule=utils.getEvents())
 
-"""
+
 @app.route("/login", methods = ['GET','POST'])
 def login(): 
     if session.get("loggedin") == None:
@@ -147,6 +147,7 @@ def admin():
                            delegate_fields=delegate_fields,
                            user=session.get("loggedin"))
 
+"""
 @app.route("/about")
 def about():
     return render_template("about.html",user=session.get("loggedin"))
