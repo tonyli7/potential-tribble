@@ -47,7 +47,7 @@ def login():
 
 @app.route("/logout", methods=['GET','POST'])
 def logout():
-    #utils.delSession(session["id"])
+    utils.delSession(session["id"])
     session["loggedin"]=None
     session["id"]=None
     return redirect(url_for("home"))
@@ -67,8 +67,8 @@ def register():
     
 @app.route("/admin", methods=['GET','POST'])
 def admin():
-    #if not utils.checkSession(session["loggedin"],session["id"]):
-    #    return redirect(url_for("home"))
+    if not utils.checkSession(session["loggedin"],session["id"]):
+        return redirect(url_for("home"))
     if request.method == 'POST':
         #schedule the email
         if 'schedule-email' in request.form:
