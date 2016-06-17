@@ -67,7 +67,9 @@ def register():
     
 @app.route("/admin", methods=['GET','POST'])
 def admin():
-    if not utils.checkSession(session["loggedin"],session["id"]):
+    #if not utils.checkSession(session["loggedin"],session["id"]):
+    #    return redirect(url_for("home"))
+    if not user["loggedin"]:
         return redirect(url_for("home"))
     if request.method == 'POST':
         #schedule the email

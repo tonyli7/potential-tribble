@@ -206,7 +206,7 @@ def newSession(user):
 #check session
 def checkSession(user,session_id):
     return mongo.getEntry("fields","sessions",{"user":user,"_id":ObjectId(session_id)}).count() > 0
-    
+
 #delete session
 def delSession(session_id):
     mongo.deleteEntry("fields","sessions",{"_id":ObjectId(session_id)})
