@@ -8,13 +8,13 @@ app.secret_key=os.urandom(24)
 app.config['UPLOAD_FOLDER'] = settings.UPLOAD_FOLDER
 #app.config['SESSION_TYPE'] = settings.SESSION_TYPE
 email_receiver=[]
-
+"""
 def setup(app):
     utils.createUser("admin@stuymunc.com","proscientia","admin")
     #Session(app)
     
 setup(app)
-    
+""" 
 @app.route("/")
 @app.route("/home")
 def home():
@@ -25,6 +25,7 @@ def home():
     countto = datetime.datetime.strptime(countto,"%Y-%m-%dT%H:%M")
     return render_template("home.html",user=session.get("loggedin"),year=countto.year,month=countto.month,day=countto.day,hour=countto.hour,minute=countto.minute,schedule=utils.getEvents())
 
+"""
 @app.route("/login", methods = ['GET','POST'])
 def login(): 
     if session.get("loggedin") == None:
@@ -192,7 +193,7 @@ def downloads():
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
-
+"""
 if __name__=="__main__":
     app.debug = True
     app.secret_key="Don't upload to github"
