@@ -10,7 +10,7 @@ Software Development Period 3
 
 Install necessary libraries. This may require super user permissions 
 
-    apt-get install pip mongodb-server gunicorn
+    apt-get install pip mongodb-server gunicorn libapache2-mod-wsgi
 
     pip install -r requirements.txt
 
