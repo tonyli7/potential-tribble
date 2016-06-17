@@ -8,13 +8,13 @@ app.secret_key=os.urandom(24)
 app.config['UPLOAD_FOLDER'] = settings.UPLOAD_FOLDER
 #app.config['SESSION_TYPE'] = settings.SESSION_TYPE
 email_receiver=[]
-"""
+
 def setup(app):
     utils.createUser("admin@stuymunc.com","proscientia","admin")
     #Session(app)
     
 setup(app)
-""" 
+
 @app.route("/")
 @app.route("/home")
 def home():
