@@ -6,7 +6,7 @@ from flask import Flask, session, render_template, url_for, request, redirect, s
 app = Flask(__name__)
 app.secret_key=os.urandom(24)
 app.config['UPLOAD_FOLDER'] = settings.UPLOAD_FOLDER
-app.config['SESSION_TYPE'] = settings.SESSION_TYPE
+#app.config['SESSION_TYPE'] = settings.SESSION_TYPE
 email_receiver=[]
 
 def setup(app):
