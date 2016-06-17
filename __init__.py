@@ -1,7 +1,7 @@
 import utils, mongo, os, settings, datetime
 from werkzeug.utils import secure_filename
 from flask import Flask, session, render_template, url_for, request, redirect, send_from_directory
-from flask.ext.session import Session, MongoDBSessionInterface
+#from flask.ext.session import Session, MongoDBSessionInterface
 
 app = Flask(__name__)
 app.secret_key=os.urandom(24)
