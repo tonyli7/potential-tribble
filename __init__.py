@@ -69,7 +69,7 @@ def register():
 def admin():
     #if not utils.checkSession(session["loggedin"],session["id"]):
     #    return redirect(url_for("home"))
-    if not user["loggedin"]:
+    if not session["loggedin"]:
         return redirect(url_for("home"))
     if request.method == 'POST':
         #schedule the email
